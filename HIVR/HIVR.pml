@@ -4,9 +4,13 @@
     <BehaviorDescriptions>
         <BehaviorDescription name="behavior" src="behavior_1" xar="behavior.xar" />
     </BehaviorDescriptions>
-    <Dialogs />
+    <Dialogs>
+        <Dialog name="ExampleDialog" src="behavior_1/ExampleDialog/ExampleDialog.dlg" />
+    </Dialogs>
     <Resources />
-    <Topics />
+    <Topics>
+        <Topic name="ExampleDialog_frf" src="behavior_1/ExampleDialog/ExampleDialog_frf.top" topicName="ExampleDialog" language="fr_FR" />
+    </Topics>
     <IgnoredPaths>
         <Path src="README.md" />
     </IgnoredPaths>
