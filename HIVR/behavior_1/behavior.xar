@@ -51,6 +51,8 @@
                 self.tts.setLanguage( self.getParameter("Language") )
             if self.dialog:
                 self.dialog.setLanguage( self.getParameter("Language") )
+                #self.dialog.setASRConfidenceThreshold(0.1)
+                #self.logger.info("ASR Confidence" + self.dialog.getASRConfidenceThreshold())
             if self.tts is None and self.asr is None and self.dialog is None:
                 raise RuntimeError("Cannot set language: neither ALTextToSpeech nor ALSpeechRecognition nor ALDialog is available.")
             self.onReady()
@@ -64,7 +66,7 @@
                             <Input name="onSet" type="1" type_size="1" nature="1" inner="0" tooltip="The data is set when a signal is received on this input." id="2" />
                             <Output name="onReady" type="1" type_size="1" nature="2" inner="0" tooltip="Signal sent when the data has been set." id="3" />
                             <Output name="onError" type="3" type_size="1" nature="2" inner="0" tooltip="Error output:&#x0A;- triggered if the language asked cannot be set" id="4" />
-                            <Parameter name="Language" inherits_from_parent="0" content_type="3" value="French" default_value="English" custom_choice="1" tooltip="Set the language the robot speaks and understands." id="5">
+                            <Parameter name="Language" inherits_from_parent="0" content_type="3" value="English" default_value="English" custom_choice="1" tooltip="Set the language the robot speaks and understands." id="5">
                                 <Choice value="Arabic" />
                                 <Choice value="Brazilian" />
                                 <Choice value="Chinese" />

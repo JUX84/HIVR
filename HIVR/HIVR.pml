@@ -9,7 +9,7 @@
     </Dialogs>
     <Resources />
     <Topics>
-        <Topic name="ExampleDialog_frf" src="behavior_1/ExampleDialog/ExampleDialog_frf.top" topicName="ExampleDialog" language="fr_FR" />
+        <Topic name="ExampleDialog_enu" src="behavior_1/ExampleDialog/ExampleDialog_enu.top" topicName="ExampleDialog" language="en_US" />
     </Topics>
     <IgnoredPaths />
 </Package>
