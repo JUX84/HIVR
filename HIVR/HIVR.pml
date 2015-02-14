@@ -11,7 +11,5 @@
     <Topics>
         <Topic name="ExampleDialog_frf" src="behavior_1/ExampleDialog/ExampleDialog_frf.top" topicName="ExampleDialog" language="fr_FR" />
     </Topics>
-    <IgnoredPaths>
-        <Path src="README.md" />
-    </IgnoredPaths>
+    <IgnoredPaths />
 </Package>
