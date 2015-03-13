@@ -122,7 +122,7 @@
                             <Output name="onReady" type="1" type_size="1" nature="2" inner="0" tooltip="Signal sent when the data has been set." id="4" />
                             <Parameter name="Level" inherits_from_parent="0" content_type="2" value="0.4" default_value="0.5" min="0" max="1" tooltip="" id="5" />
                         </Box>
-                        <Box name="Demarrage" id="3" localization="8" tooltip="This box is empty and should be used to create any box diagram you would like.&#x0A;&#x0A;To edit its diagram, double-click on it." x="431" y="33">
+                        <Box name="Demarrage" id="3" localization="8" tooltip="This box is empty and should be used to create any box diagram you would like.&#x0A;&#x0A;To edit its diagram, double-click on it." x="570" y="30">
                             <bitmap>media/images/box/box-diagram.png</bitmap>
                             <script language="4">
                                 <content>
@@ -372,7 +372,9 @@ class MyClass(GeneratedClass):
         pass
 
     def onInput_onStart(self, p):
-        self.logger.warn(p.split(';')[0])
+        global guesswho
+        self.log(guesswho.i)
+        self.log(p.split(';')[0])
         self.onStopped() #activate the output of the box
 
     def onInput_onStop(self):
@@ -394,10 +396,33 @@ class MyClass(GeneratedClass):
                                 </BehaviorLayer>
                             </Timeline>
                         </Box>
+                        <Box name="Guess Who Initialization" id="4" localization="8" tooltip="This box initializes de GuessWho instance" x="394" y="116">
+                            <bitmap>media/images/box/box-python-script.png</bitmap>
+                            <script language="4">
+                                <content>
+                                    <![CDATA[class GuessWho:
+    i = 0;
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self, False)
+
+    def onLoad(self):
+        try:
+            global guesswho
+            guesswho = GuessWho()
+        except:
+            self.logger.warn("Couldn't load guess who")]]>
+</content>
+                            </script>
+                            <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                            <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="2" />
+                        </Box>
                         <Link inputowner="2" indexofinput="2" outputowner="0" indexofoutput="2" />
                         <Link inputowner="1" indexofinput="2" outputowner="2" indexofoutput="3" />
                         <Link inputowner="3" indexofinput="2" outputowner="1" indexofoutput="4" />
                         <Link inputowner="0" indexofinput="4" outputowner="3" indexofoutput="4" />
+                        <Link inputowner="4" indexofinput="2" outputowner="1" indexofoutput="4" />
                     </Diagram>
                 </BehaviorKeyframe>
             </BehaviorLayer>
