@@ -373,7 +373,8 @@ class MyClass(GeneratedClass):
 
     def onInput_onStart(self, p):
         global guesswho
-        self.log(guesswho.i)
+        if guesswho.check("test") == True:
+            self.log("true")
         self.log(p.split(';')[0])
         self.onStopped() #activate the output of the box
 
@@ -400,19 +401,43 @@ class MyClass(GeneratedClass):
                             <bitmap>media/images/box/box-python-script.png</bitmap>
                             <script language="4">
                                 <content>
-                                    <![CDATA[class GuessWho:
-    i = 0;
+                                    <![CDATA[class Character:
+    name = ""
+    trait = ""
+
+    def __init__(self, name, trait):
+        self.name = name
+        self.trait = trait
+
+    def check(self, trait):
+        if self.trait == trait:
+            return True
+        return False
+
+class GuessWho:
+    characters = []
+    def __init__(self, start):
+        if start == True:
+            self.initA()
+        else:
+            self.initB()
+
+    def initA(self):
+        self.characters.append(Character("name","test"))
+
+    def initB(self):
+        self.characters.append(Character("name2","test2"))
+
+    def check(self, details):
+        return self.characters[0].check(details)
 
 class MyClass(GeneratedClass):
     def __init__(self):
         GeneratedClass.__init__(self, False)
 
     def onLoad(self):
-        try:
-            global guesswho
-            guesswho = GuessWho()
-        except:
-            self.logger.warn("Couldn't load guess who")]]>
+        global guesswho
+        guesswho = GuessWho(True)]]>
 </content>
                             </script>
                             <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
