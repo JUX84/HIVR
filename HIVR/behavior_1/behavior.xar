@@ -340,7 +340,7 @@ class MyClass(GeneratedClass):
                                                 </Timeline>
                                                 <Resource name="Speech" type="Lock" timeout="0" />
                                             </Box>
-                                            <Box name="Dialog" id="3" localization="8" tooltip="An example of multilanguage dialog implementation" x="320" y="35">
+                                            <Box name="Dialog" id="3" localization="8" tooltip="An example of multilanguage dialog implementation" x="413" y="41">
                                                 <dialogFile>../Bonjour/Bonjour.dlg</dialogFile>
                                                 <bitmap>media/images/box/box-dialog.png</bitmap>
                                                 <script language="4">
@@ -355,7 +355,7 @@ class MyClass(GeneratedClass):
                                                 <Resource name="Speech" type="Lock" timeout="0" />
                                                 <Resource name="Speech recognition" type="Lock" timeout="0" />
                                             </Box>
-                                            <Box name="Test" id="2" localization="8" tooltip="" x="504" y="161">
+                                            <Box name="Test" id="2" localization="8" tooltip="" x="556" y="219">
                                                 <bitmap>media/images/box/box-python-script.png</bitmap>
                                                 <script language="4">
                                                     <content>
@@ -364,8 +364,11 @@ class MyClass(GeneratedClass):
         GeneratedClass.__init__(self)
 
     def onLoad(self):
-        #put initialization code here
-        pass
+        try:
+            self.tts = ALProxy("ALTextToSpeech")
+        except:
+            self.logger.warn("ALTextToSpeech is not available, language setting cannot be applied to speech")
+            self.tts = None
 
     def onUnload(self):
         #put clean-up code here
@@ -373,9 +376,12 @@ class MyClass(GeneratedClass):
 
     def onInput_onStart(self, p):
         global guesswho
-        if guesswho.check("test") == True:
-            self.log("true")
-        self.log(p.split(';')[0])
+        key = p.split(';')[0]
+        value = p.split(';')[1]
+        if guesswho.check(key, value) == True:
+            self.tts.say("Oui")
+        else:
+            self.tts.say("Non")
         self.onStopped() #activate the output of the box
 
     def onInput_onStop(self):
@@ -391,7 +397,7 @@ class MyClass(GeneratedClass):
                                             <Link inputowner="1" indexofinput="2" outputowner="0" indexofoutput="2" />
                                             <Link inputowner="3" indexofinput="2" outputowner="1" indexofoutput="4" />
                                             <Link inputowner="2" indexofinput="2" outputowner="3" indexofoutput="4" />
-                                            <Link inputowner="0" indexofinput="4" outputowner="2" indexofoutput="4" />
+                                            <Link inputowner="3" indexofinput="2" outputowner="2" indexofoutput="4" />
                                         </Diagram>
                                     </BehaviorKeyframe>
                                 </BehaviorLayer>
@@ -409,12 +415,18 @@ class MyClass(GeneratedClass):
         self.name = name
         self.trait = trait
 
-    def check(self, trait):
-        if self.trait == trait:
-            return True
+    def getTrait(self):
+        return self.trait
+
+    def check(self, key, value):
+        if key == "name":
+            return self.name == value
+        if key == "trait":
+            return self.trait == value
         return False
 
 class GuessWho:
+    character = Character("", "")
     characters = []
     def __init__(self, start):
         if start == True:
@@ -423,13 +435,18 @@ class GuessWho:
             self.initB()
 
     def initA(self):
-        self.characters.append(Character("name","test"))
+        self.characters.append(Character("thomas", "blanc"))
+        self.character = Character("mehdi", "arabe")
 
     def initB(self):
-        self.characters.append(Character("name2","test2"))
+        self.characters.append(Character("mehdi", "arabe"))
+        self.character = Character("thomas", "blanc")
 
-    def check(self, details):
-        return self.characters[0].check(details)
+    def check(self, key, value):
+        return self.character.check(key, value)
+
+    def select(self):
+        return self.characters[0].getTrait()
 
 class MyClass(GeneratedClass):
     def __init__(self):
