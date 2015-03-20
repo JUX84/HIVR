@@ -376,10 +376,17 @@ class MyClass(GeneratedClass):
 
     def onInput_onStart(self, p):
         global guesswho
-        if guesswho.check(p.split(';')) == True:
-            self.tts.say("Oui")
+        if p.split(';')[0] == "answer":
+            if p.split(';')[1] == "true":
+                self.tts.say(guesswho.process(True))
+            else:
+                self.tts.say(guesswho.process(False))
         else:
-            self.tts.say("Non")
+            if guesswho.check(p.split(';')) == True:
+                self.tts.say("Oui")
+            else:
+                self.tts.say("Non")
+            self.tts.say(guesswho.ask())
         self.onStopped() #activate the output of the box
 
     def onInput_onStop(self):
@@ -405,7 +412,9 @@ class MyClass(GeneratedClass):
                             <bitmap>media/images/box/box-python-script.png</bitmap>
                             <script language="4">
                                 <content>
-                                    <![CDATA[class Info:
+                                    <![CDATA[from copy import copy
+
+class Info:
     key = ""
     value = ""
 
@@ -426,6 +435,9 @@ class Character:
     def __init__(self, name, traits):
         self.name = name
         self.traits = traits
+
+    def getName(self):
+        return self.name
 
     def getTraits(self):
         return self.traits
@@ -448,25 +460,51 @@ class Character:
 class GuessWho:
     character = Character("", [])
     characters = []
+    current = []
+
     def __init__(self, start):
         if start == True:
             self.initA()
         else:
             self.initB()
 
+    def chars(self):
+        return self.characters
+
     def initA(self):
-        self.characters.append(Character("thomas", ["blanc","grand"]))
-        self.character = Character("mehdi", ["arabe","grand"])
+        self.characters.append(Character("thomas", ["blanc", "grand"]))
+        self.characters.append(Character("manu", ["mexicain",  "petit"]))
+        self.character = Character("mehdi", ["arabe", "grand"])
 
     def initB(self):
-        self.characters.append(Character("mehdi", ["arabe","grand"]))
-        self.character = Character("thomas", ["blanc","grand"])
+        self.characters.append(Character("mehdi", ["arabe", "grand"]))
+        self.characters.append(Character("manu", ["mexicain", "petit"]))
+        self.character = Character("thomas", ["blanc", "grand"])
 
     def check(self, infos):
         return self.character.check(infos)
 
-    def select(self):
-        return self.characters[0].getTrait()
+    def ask(self):
+        if len(self.characters) == 1:
+            self.current = ["name", copy(self.characters[0].getName())]
+            return "est-ce "+self.current[1]
+        else:
+            self.current = ["trait", copy(self.characters[0].getTraits()[0])]
+            return "est-il "+self.current[1]
+
+    def process(self, bool):
+        if self.current[0] == "name":
+            if bool == True:
+                return "j'ai gagne"
+            else:
+                return "j'ai perdu"
+        else:
+            tmp = copy(self.characters)
+            self.characters = []
+            for character in tmp:
+                if character.check(self.current) == bool:
+                    self.characters.append(character)
+            return "ok"
 
 class MyClass(GeneratedClass):
     def __init__(self):
