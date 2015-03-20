@@ -376,9 +376,7 @@ class MyClass(GeneratedClass):
 
     def onInput_onStart(self, p):
         global guesswho
-        key = p.split(';')[0]
-        value = p.split(';')[1]
-        if guesswho.check(key, value) == True:
+        if guesswho.check(p.split(';')) == True:
             self.tts.say("Oui")
         else:
             self.tts.say("Non")
@@ -407,26 +405,48 @@ class MyClass(GeneratedClass):
                             <bitmap>media/images/box/box-python-script.png</bitmap>
                             <script language="4">
                                 <content>
-                                    <![CDATA[class Character:
+                                    <![CDATA[class Info:
+    key = ""
+    value = ""
+
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+
+    def getKey(self):
+        return self.key
+
+    def getValue(self):
+        return self.value
+
+class Character:
     name = ""
-    trait = ""
+    traits = []
 
-    def __init__(self, name, trait):
+    def __init__(self, name, traits):
         self.name = name
-        self.trait = trait
+        self.traits = traits
 
-    def getTrait(self):
-        return self.trait
+    def getTraits(self):
+        return self.traits
 
-    def check(self, key, value):
-        if key == "name":
-            return self.name == value
-        if key == "trait":
-            return self.trait == value
+    def check(self, infos):
+        infosArr = []
+        i = 0
+        while i < len(infos)-1:
+            infosArr.append(Info(infos[i], infos[i+1]))
+            i += 2
+        for info in infosArr:
+            if info.getKey() == "name":
+                return self.name == info.getValue()
+            if info.getKey() == "trait":
+                for trait in self.traits:
+                    if trait == info.getValue():
+                        return True
         return False
 
 class GuessWho:
-    character = Character("", "")
+    character = Character("", [])
     characters = []
     def __init__(self, start):
         if start == True:
@@ -435,15 +455,15 @@ class GuessWho:
             self.initB()
 
     def initA(self):
-        self.characters.append(Character("thomas", "blanc"))
-        self.character = Character("mehdi", "arabe")
+        self.characters.append(Character("thomas", ["blanc","grand"]))
+        self.character = Character("mehdi", ["arabe","grand"])
 
     def initB(self):
-        self.characters.append(Character("mehdi", "arabe"))
-        self.character = Character("thomas", "blanc")
+        self.characters.append(Character("mehdi", ["arabe","grand"]))
+        self.character = Character("thomas", ["blanc","grand"])
 
-    def check(self, key, value):
-        return self.character.check(key, value)
+    def check(self, infos):
+        return self.character.check(infos)
 
     def select(self):
         return self.characters[0].getTrait()

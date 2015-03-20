@@ -3,9 +3,13 @@ language: frf
 
 u:(["bonjour" "salut" "yo"]) Veux-tu jouer à Qui est-ce ?
 
-u:("est-ce qu'il est blanc") $onStopped="trait;blanc"
+u:("est-il blanc") $onStopped="trait;blanc"
 
-u:("est-ce qu'il est arabe") $onStopped="trait;arabe"
+u:("est-il arabe") $onStopped="trait;arabe"
+
+u:("est-il grand") $onStopped="trait;grand"
+
+u:("est-il petit") $onStopped="trait;petit"
 
 u:("est-ce mehdi") $onStopped="name;mehdi"
 
