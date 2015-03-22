@@ -461,6 +461,9 @@ class GuessWho:
     character = Character("", [])
     characters = []
     current = []
+    availableTraits = []
+    okTraits = []
+    koTraits = []
 
     def __init__(self, start):
         if start == True:
@@ -474,11 +477,19 @@ class GuessWho:
     def initA(self):
         self.characters.append(Character("thomas", ["blanc", "grand"]))
         self.characters.append(Character("manu", ["mexicain",  "petit"]))
+        self.characters.append(Character("julien", ["hispa", "grand"]))
+        for character in self.characters:
+            for trait in character.getTraits():
+                self.availableTraits.append(trait)
         self.character = Character("mehdi", ["arabe", "grand"])
 
     def initB(self):
         self.characters.append(Character("mehdi", ["arabe", "grand"]))
         self.characters.append(Character("manu", ["mexicain", "petit"]))
+        self.characters.append(Character("julien", ["hispa", "grand"]))
+        for character in self.characters:
+            for trait in character.getTraits():
+                self.availableTraits.append(trait)
         self.character = Character("thomas", ["blanc", "grand"])
 
     def check(self, infos):
@@ -489,8 +500,9 @@ class GuessWho:
             self.current = ["name", copy(self.characters[0].getName())]
             return "est-ce "+self.current[1]
         else:
-            self.current = ["trait", copy(self.characters[0].getTraits()[0])]
-            return "est-il "+self.current[1]
+            trait = self.availableTraits.pop(0)
+            self.current = ["trait", trait]
+            return "est-il "+trait
 
     def process(self, bool):
         if self.current[0] == "name":
@@ -499,6 +511,10 @@ class GuessWho:
             else:
                 return "j'ai perdu"
         else:
+            if bool == True:
+                okTraits = self.current[1]
+            else:
+                koTraits = self.current[1]
             tmp = copy(self.characters)
             self.characters = []
             for character in tmp:
