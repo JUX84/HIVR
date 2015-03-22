@@ -1,0 +1,18 @@
+topic: ~QuestionReponse()
+language: frf
+
+u:("est-il blanc") $onStopped="trait;blanc"
+
+u:("est-il arabe") $onStopped="trait;arabe"
+
+u:("est-il grand") $onStopped="trait;grand"
+
+u:("est-il petit") $onStopped="trait;petit"
+
+u:("est-ce mehdi") $onStopped="name;mehdi"
+
+u:("est-ce thomas") $onStopped="name;thomas"
+
+u:(non) $onStopped="answer;false"
+
+u:(oui) $onStopped="answer;true"
