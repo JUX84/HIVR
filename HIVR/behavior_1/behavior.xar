@@ -139,7 +139,7 @@
                                 <BehaviorLayer name="behavior_layer1">
                                     <BehaviorKeyframe name="keyframe1" index="1">
                                         <Diagram>
-                                            <Box name="Aks/Answer" id="2" localization="8" tooltip="" x="557" y="242">
+                                            <Box name="Answer" id="2" localization="8" tooltip="" x="495" y="7">
                                                 <bitmap>media/images/box/box-python-script.png</bitmap>
                                                 <script language="4">
                                                     <content>
@@ -165,25 +165,25 @@
                 self.tts.say(guesswho.process(True))
             else:
                 self.tts.say(guesswho.process(False))
+            self.output()
         else:
             if guesswho.check(p.split(';')) == True:
                 self.tts.say("Oui")
             else:
                 self.tts.say("Non")
-            self.tts.say(guesswho.ask())
-        self.onStopped() #activate the output of the box
+            self.onStopped() #activate the output of the box
 
     def onInput_onStop(self):
-        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
-        self.onStopped() #activate the output of the box]]>
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped]]>
 </content>
                                                 </script>
                                                 <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
                                                 <Input name="onStart" type="3" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
                                                 <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
                                                 <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+                                                <Output name="output" type="1" type_size="1" nature="1" inner="0" tooltip="" id="5" />
                                             </Box>
-                                            <Box name="Dialog" id="3" localization="8" tooltip="An example of multilanguage dialog implementation" x="346" y="111">
+                                            <Box name="Dialog" id="3" localization="8" tooltip="An example of multilanguage dialog implementation" x="336" y="167">
                                                 <dialogFile>../QuestionReponse/QuestionReponse.dlg</dialogFile>
                                                 <bitmap>media/images/box/box-dialog.png</bitmap>
                                                 <script language="4">
@@ -198,9 +198,45 @@
                                                 <Resource name="Speech" type="Lock" timeout="0" />
                                                 <Resource name="Speech recognition" type="Lock" timeout="0" />
                                             </Box>
+                                            <Box name="Ask" id="1" localization="8" tooltip="" x="525" y="279">
+                                                <bitmap>media/images/box/box-python-script.png</bitmap>
+                                                <script language="4">
+                                                    <content>
+                                                        <![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        try:
+            self.tts = ALProxy("ALTextToSpeech")
+        except:
+            self.logger.warn("ALTextToSpeech is not available, language setting cannot be applied to speech")
+            self.tts = None
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self, p):
+        global guesswho
+        self.tts.say(guesswho.ask())
+        self.onStopped() #activate the output of the box
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]>
+</content>
+                                                </script>
+                                                <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                                                <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+                                                <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+                                                <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+                                            </Box>
                                             <Link inputowner="3" indexofinput="2" outputowner="0" indexofoutput="2" />
-                                            <Link inputowner="3" indexofinput="2" outputowner="2" indexofoutput="4" />
                                             <Link inputowner="2" indexofinput="2" outputowner="3" indexofoutput="4" />
+                                            <Link inputowner="1" indexofinput="2" outputowner="2" indexofoutput="4" />
+                                            <Link inputowner="3" indexofinput="2" outputowner="1" indexofoutput="4" />
+                                            <Link inputowner="3" indexofinput="2" outputowner="2" indexofoutput="5" />
                                         </Diagram>
                                     </BehaviorKeyframe>
                                 </BehaviorLayer>
@@ -263,12 +299,6 @@ class GuessWho:
     okTraits = []
     koTraits = []
 
-    def __init__(self, start):
-        if start == True:
-            self.initA()
-        else:
-            self.initB()
-
     def chars(self):
         return self.characters
 
@@ -299,8 +329,8 @@ class GuessWho:
             return "est-ce "+self.current[1]
         else:
             trait = self.availableTraits.pop(0)
-            self.current = ["trait", trait]
-            return "est-il "+trait
+            self.current = ["trait", copy(trait)]
+            return "est-il "+self.current[1]
 
     def process(self, bool):
         if self.current[0] == "name":
@@ -310,14 +340,14 @@ class GuessWho:
                 return "j'ai perdu"
         else:
             if bool == True:
-                okTraits = self.current[1]
+                okTraits = copy(self.current[1])
             else:
-                koTraits = self.current[1]
+                koTraits = copy(self.current[1])
             tmp = copy(self.characters)
             self.characters = []
             for character in tmp:
                 if character.check(self.current) == bool:
-                    self.characters.append(character)
+                    self.characters.append(copy(character))
             return "ok"
 
 class MyClass(GeneratedClass):
@@ -326,7 +356,7 @@ class MyClass(GeneratedClass):
 
     def onLoad(self):
         global guesswho
-        guesswho = GuessWho(True)]]>
+        guesswho = GuessWho()]]>
 </content>
                             </script>
                             <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
