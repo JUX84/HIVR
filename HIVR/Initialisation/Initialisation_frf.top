@@ -1,0 +1,5 @@
+topic: ~Initialisation()
+language: frf
+
+u:(["oui" "ok" "go"]) $outPositive=1
+u:(["non" "j'ai peur" "pas maintenant"]) $outNegative=1
