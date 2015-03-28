@@ -296,7 +296,6 @@ class GuessWho:
     characters = []
     current = []
     availableTraits = []
-    okTraits = []
     koTraits = []
 
     def chars(self):
@@ -306,28 +305,30 @@ class GuessWho:
         self.characters.append(Character("thomas", ["blanc", "grand"]))
         self.characters.append(Character("manu", ["mexicain",  "petit"]))
         self.characters.append(Character("julien", ["hispa", "grand"]))
-        for character in self.characters:
-            for trait in character.getTraits():
-                self.availableTraits.append(trait)
         self.character = Character("mehdi", ["arabe", "grand"])
 
     def initB(self):
         self.characters.append(Character("mehdi", ["arabe", "grand"]))
         self.characters.append(Character("manu", ["mexicain", "petit"]))
         self.characters.append(Character("julien", ["hispa", "grand"]))
-        for character in self.characters:
-            for trait in character.getTraits():
-                self.availableTraits.append(trait)
         self.character = Character("thomas", ["blanc", "grand"])
 
     def check(self, infos):
         return self.character.check(infos)
+
+    def refTraits(self):
+        self.availableTraits = []
+        for character in self.characters:
+            for trait in character.getTraits():
+                if self.koTraits.count(trait) == 0:
+                    self.availableTraits.append(trait)
 
     def ask(self):
         if len(self.characters) == 1:
             self.current = ["name", copy(self.characters[0].getName())]
             return "est-ce "+self.current[1]
         else:
+            self.refTraits()
             trait = self.availableTraits.pop(0)
             self.current = ["trait", copy(trait)]
             return "est-il "+self.current[1]
@@ -339,10 +340,8 @@ class GuessWho:
             else:
                 return "j'ai perdu"
         else:
-            if bool == True:
-                okTraits = copy(self.current[1])
-            else:
-                koTraits = copy(self.current[1])
+            if bool == False:
+                koTraits.append(copy(self.current[1]))
             tmp = copy(self.characters)
             self.characters = []
             for character in tmp:
