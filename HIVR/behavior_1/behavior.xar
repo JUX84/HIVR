@@ -296,22 +296,32 @@ class GuessWho:
     characters = []
     current = []
     availableTraits = []
+    okTraits = []
     koTraits = []
 
     def chars(self):
         return self.characters
 
+    def init(self):
+        self.characters.append(Character("tony", ["homme", "blanc", "blond", "vert", "basket"]))
+        self.characters.append(Character("max", ["homme", "blanc",  "casque", "bleu", "hockey"]))
+        self.characters.append(Character("hugo", ["homme", "blanc", "casque", "jaune", "ski"]))
+        self.characters.append(Character("manon", ["femme", "blanc", "brun", "bleu", "foot"]))
+        self.characters.append(Character("laura", ["femme", "blanc", "blond", "vert", "basket"]))
+        self.characters.append(Character("michelle", ["femme", "asiat", "brun", "chapeau", "rouge", "equitation"]))
+        self.characters.append(Character("nicolas", ["homme", "blanc", "brun", "blanc", "tennis"]))
+        self.characters.append(Character("kevin", ["homme", "black", "brun", "bandeau", "jaune", "basket"]))
+        self.characters.append(Character("pauline", ["femme", "asiat", "brun", "bonnet", "bleu", "natation"]))
+        self.characters.append(Character("romain", ["homme", "blanc", "roux", "rouge", "foot"]))
+        self.characters.append(Character("sarah", ["femme", "blanc", "brun", "bandeau", "jaune", "foot"]))
+        self.characters.append(Character("leo", ["homme", "black", "brun", "chapeau", "bleu", "golf"]))
     def initA(self):
-        self.characters.append(Character("thomas", ["blanc", "grand"]))
-        self.characters.append(Character("manu", ["mexicain",  "petit"]))
-        self.characters.append(Character("julien", ["hispa", "grand"]))
-        self.character = Character("mehdi", ["arabe", "grand"])
+        self.init()
+        self.character = self.characters[0]
 
     def initB(self):
-        self.characters.append(Character("mehdi", ["arabe", "grand"]))
-        self.characters.append(Character("manu", ["mexicain", "petit"]))
-        self.characters.append(Character("julien", ["hispa", "grand"]))
-        self.character = Character("thomas", ["blanc", "grand"])
+        self.init()
+        self.character = self.characters[11]
 
     def check(self, infos):
         return self.character.check(infos)
@@ -320,7 +330,7 @@ class GuessWho:
         self.availableTraits = []
         for character in self.characters:
             for trait in character.getTraits():
-                if self.koTraits.count(trait) == 0:
+                if self.koTraits.count(trait) == 0 and self.okTraits.count(trait) == 0:
                     self.availableTraits.append(trait)
 
     def ask(self):
@@ -341,7 +351,9 @@ class GuessWho:
                 return "j'ai perdu"
         else:
             if bool == False:
-                koTraits.append(copy(self.current[1]))
+                self.koTraits.append(copy(self.current[1]))
+            if bool == True:
+                self.okTraits.append(copy(self.current[1]))
             tmp = copy(self.characters)
             self.characters = []
             for character in tmp:

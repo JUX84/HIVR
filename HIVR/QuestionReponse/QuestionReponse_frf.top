@@ -1,17 +1,49 @@
 topic: ~QuestionReponse()
 language: frf
 
-u:("est-il blanc") $onStopped="trait;blanc"
+u:("est-ce un [garcon homme]") $onStopped="trait;homme"
+u:("est-ce une [fille femme]") $onStopped="trait;femme"
 
-u:("est-il arabe") $onStopped="trait;arabe"
+u:("est-[il elle] blanc") $onStopped="trait;blanc"
+u:("est-[il elle] black") $onStopped="trait;black"
+u:("est-[il elle] asiat") $onStopped="trait;asiat"
 
-u:("est-il grand") $onStopped="trait;grand"
+u:("est-[il elle] [brun brune]") $onStopped="trait;brun"
+u:("est-[il elle] [blond blonde]") $onStopped="trait;blond"
+u:("est-[il elle] [roux rousse]") $onStopped="trait;roux"
 
-u:("est-il petit") $onStopped="trait;petit"
+u:("est-[il elle] habille en vert") $onStopped="trait;vert"
+u:("est-[il elle] habille en bleu") $onStopped="trait;bleu"
+u:("est-[il elle] habille en jaune") $onStopped="trait;jaune"
+u:("est-[il elle] habille en rouge") $onStopped="trait;rouge"
+u:("est-[il elle] habille en blanc") $onStopped="trait;blanc"
 
-u:("est-ce mehdi") $onStopped="name;mehdi"
+u:("a-t-[il elle] un chapeau") $onStopped="trait;chapeau"
+u:("a-t-[il elle] un bandeau") $onStopped="trait;bandeau"
+u:("a-t-[il elle] un bonnet") $onStopped="trait;bonnet"
+u:("a-t-[il elle] un casque") $onStopped="trait;casque"
 
-u:("est-ce thomas") $onStopped="name;thomas"
+u:("fait-[il elle] du basket") $onStopped="trait;basket"
+u:("fait-[il elle] du hockey") $onStopped="trait;hockey"
+u:("fait-[il elle] du ski") $onStopped="trait;ski"
+u:("fait-[il elle] du [foot football]") $onStopped="trait;foot"
+u:("fait-[il elle] de l'equitation") $onStopped="trait;equitation"
+u:("fait-[il elle] du tennis") $onStopped="trait;tennis"
+u:("fait-[il elle] de la natation") $onStopped="trait;natation"
+u:("fait-[il elle] du golf") $onStopped="trait;golf"
+
+u:("est-ce tony") $onStopped="name;tony"
+u:("est-ce max") $onStopped="name;max"
+u:("est-ce hugo") $onStopped="name;hugo"
+u:("est-ce manon") $onStopped="name;manon"
+u:("est-ce laura") $onStopped="name;laura"
+u:("est-ce michelle") $onStopped="name;michelle"
+u:("est-ce nicolas") $onStopped="name;nicolas"
+u:("est-ce kevin") $onStopped="name;kevin"
+u:("est-ce pauline") $onStopped="name;pauline"
+u:("est-ce romain") $onStopped="name;romain"
+u:("est-ce sarah") $onStopped="name;sarah"
+u:("est-ce leo") $onStopped="name;leo"
 
 u:(non) $onStopped="answer;false"
 
