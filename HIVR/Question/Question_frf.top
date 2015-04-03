@@ -1,4 +1,4 @@
-topic: ~QuestionReponse()
+topic: ~Question()
 language: frf
 
 u:^private("est-ce un [garcon homme]") $onStopped="trait;homme"
@@ -44,7 +44,3 @@ u:^private("est-ce pauline") $onStopped="name;pauline"
 u:^private("est-ce romain") $onStopped="name;romain"
 u:^private("est-ce sarah") $onStopped="name;sarah"
 u:^private("est-ce leo") $onStopped="name;leo"
-
-u:^private(non) $onStopped="answer;false"
-
-u:^private(oui) $onStopped="answer;true"

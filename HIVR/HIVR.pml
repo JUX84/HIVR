@@ -12,7 +12,8 @@
         <Dialog name="Preparation" src="Preparation/Preparation.dlg" />
         <Dialog name="Repeter" src="Preparation/Repeter/Repeter.dlg" />
         <Dialog name="Debut" src="Debut/Debut.dlg" />
-        <Dialog name="QuestionReponse" src="QuestionReponse/QuestionReponse.dlg" />
+        <Dialog name="Question" src="Question/Question.dlg" />
+        <Dialog name="Reponse" src="Reponse/Reponse.dlg" />
     </Dialogs>
     <Resources>
         <File name="choice_sentences" src="behavior_1/Aldebaran/choice_sentences.xml" />
@@ -27,7 +28,8 @@
         <Topic name="Debut_frf" src="Debut/Debut_frf.top" topicName="Debut" language="fr_FR" />
         <Topic name="ExampleDialog_frf" src="behavior_1/ExampleDialog/ExampleDialog_frf.top" topicName="ExampleDialog" language="fr_FR" />
         <Topic name="ExampleDialog_enu" src="behavior_1/ExampleDialog/ExampleDialog_enu.top" topicName="ExampleDialog" language="enu" />
-        <Topic name="QuestionReponse_frf" src="QuestionReponse/QuestionReponse_frf.top" topicName="QuestionReponse" language="fr_FR" />
+        <Topic name="Question_frf" src="Question/Question_frf.top" topicName="Question" language="fr_FR" />
+        <Topic name="Reponse_frf" src="Reponse/Reponse_frf.top" topicName="Reponse" language="fr_FR" />
     </Topics>
     <IgnoredPaths />
 </Package>

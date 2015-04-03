@@ -15,7 +15,7 @@
             <BehaviorLayer name="behavior_layer1">
                 <BehaviorKeyframe name="keyframe1" index="1">
                     <Diagram>
-                        <Box name="Set Language" id="2" localization="8" tooltip="Select the language you would like the robot to speak and understand. Any following call to&#x0A;ALSpeechRecognition (Speech Reco. box for instance) or ALTextToSpeech (Say box&#x0A;for instance) will use this language." x="87" y="30">
+                        <Box name="Set Language" id="2" localization="8" tooltip="Select the language you would like the robot to speak and understand. Any following call to&#x0A;ALSpeechRecognition (Speech Reco. box for instance) or ALTextToSpeech (Say box&#x0A;for instance) will use this language." x="83" y="39">
                             <bitmap>media/images/box/interaction/say.png</bitmap>
                             <script language="4">
                                 <content>
@@ -87,7 +87,7 @@
                             </Parameter>
                             <Resource name="Speech" type="Lock" timeout="0" />
                         </Box>
-                        <Box name="Set Dialog Confidence Threshold" id="1" localization="8" tooltip="This box allows us to set the confidence threshold for ALDialog" x="246" y="32">
+                        <Box name="Set Dialog Confidence Threshold" id="1" localization="8" tooltip="This box allows us to set the confidence threshold for ALDialog" x="224" y="32">
                             <bitmap>media/images/box/box-python-script.png</bitmap>
                             <script language="4">
                                 <content>
@@ -122,7 +122,7 @@
                             <Output name="onReady" type="1" type_size="1" nature="2" inner="0" tooltip="Signal sent when the data has been set." id="4" />
                             <Parameter name="Level" inherits_from_parent="0" content_type="2" value="0.4" default_value="0.5" min="0" max="1" tooltip="" id="5" />
                         </Box>
-                        <Box name="Question-Reponse" id="3" localization="8" tooltip="Cette boite permet de gérer les question et réponse du NAO." x="1057" y="566">
+                        <Box name="Question-Reponse" id="3" localization="8" tooltip="Cette boite permet de gérer les question et réponse du NAO." x="808" y="30">
                             <bitmap>media/images/box/box-diagram.png</bitmap>
                             <script language="4">
                                 <content>
@@ -139,7 +139,7 @@
                                 <BehaviorLayer name="behavior_layer1">
                                     <BehaviorKeyframe name="keyframe1" index="1">
                                         <Diagram>
-                                            <Box name="Answer" id="2" localization="8" tooltip="" x="495" y="7">
+                                            <Box name="Answer" id="2" localization="8" tooltip="" x="573" y="9">
                                                 <bitmap>media/images/box/box-python-script.png</bitmap>
                                                 <script language="4">
                                                     <content>
@@ -160,18 +160,12 @@
 
     def onInput_onStart(self, p):
         global guesswho
-        if p.split(';')[0] == "answer":
-            if p.split(';')[1] == "true":
-                self.tts.say(guesswho.process(True))
-            else:
-                self.tts.say(guesswho.process(False))
-            self.output()
+        if guesswho.check(p.split(';')) == True:
+            self.tts.say("Oui")
         else:
-            if guesswho.check(p.split(';')) == True:
-                self.tts.say("Oui")
-            else:
-                self.tts.say("Non")
-            self.onStopped() #activate the output of the box
+            self.tts.say("Non")
+        self.tts.say(guesswho.ask())
+        self.onStopped() #activate the output of the box
 
     def onInput_onStop(self):
         self.onUnload() #it is recommended to reuse the clean-up as the box is stopped]]>
@@ -181,10 +175,9 @@
                                                 <Input name="onStart" type="3" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
                                                 <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
                                                 <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
-                                                <Output name="output" type="1" type_size="1" nature="1" inner="0" tooltip="" id="5" />
                                             </Box>
-                                            <Box name="Dialog" id="3" localization="8" tooltip="An example of multilanguage dialog implementation" x="202" y="19">
-                                                <dialogFile>../QuestionReponse/QuestionReponse.dlg</dialogFile>
+                                            <Box name="Dialog" id="3" localization="8" tooltip="An example of multilanguage dialog implementation" x="434" y="10">
+                                                <dialogFile>../Question/Question.dlg</dialogFile>
                                                 <bitmap>media/images/box/box-dialog.png</bitmap>
                                                 <script language="4">
                                                     <content>
@@ -198,7 +191,7 @@
                                                 <Resource name="Speech" type="Lock" timeout="0" />
                                                 <Resource name="Speech recognition" type="Lock" timeout="0" />
                                             </Box>
-                                            <Box name="Ask" id="1" localization="8" tooltip="" x="494" y="199">
+                                            <Box name="Ask" id="1" localization="8" tooltip="" x="569" y="180">
                                                 <bitmap>media/images/box/box-python-script.png</bitmap>
                                                 <script language="4">
                                                     <content>
@@ -219,7 +212,10 @@
 
     def onInput_onStart(self, p):
         global guesswho
-        self.tts.say(guesswho.ask())
+        if p.split(';')[1] == "true":
+            self.tts.say(guesswho.process(True))
+        else:
+            self.tts.say(guesswho.process(False))
         self.onStopped() #activate the output of the box
 
     def onInput_onStop(self):
@@ -228,11 +224,11 @@
 </content>
                                                 </script>
                                                 <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
-                                                <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+                                                <Input name="onStart" type="3" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
                                                 <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
                                                 <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
                                             </Box>
-                                            <Box name="Set Dialog Topic" id="5" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="203" y="183">
+                                            <Box name="Set Dialog Topic" id="5" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="281" y="14">
                                                 <bitmap>media/images/box/box-python-script.png</bitmap>
                                                 <script language="4">
                                                     <content>
@@ -250,7 +246,56 @@
     def onInput_onSet(self):
         try:
             if self.dialog:
-                self.dialog.setFocus("QuestionReponse")
+                self.dialog.setFocus("Question")
+            if self.dialog is None:
+                raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
+            self.onReady()
+        except:
+            error = "Dialog topic cannot be set."
+            self.logger.warn(error)
+            self.onError(error)]]>
+</content>
+                                                </script>
+                                                <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                                                <Input name="onSet" type="1" type_size="1" nature="1" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+                                                <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+                                                <Output name="onReady" type="1" type_size="1" nature="2" inner="0" tooltip="Signal sent when the data has been set." id="4" />
+                                            </Box>
+                                            <Box name="Dialog (1)" id="4" localization="8" tooltip="An example of multilanguage dialog implementation" x="432" y="185">
+                                                <dialogFile>../Reponse/Reponse.dlg</dialogFile>
+                                                <bitmap>media/images/box/box-dialog.png</bitmap>
+                                                <script language="4">
+                                                    <content>
+                                                        <![CDATA[]]>
+</content>
+                                                </script>
+                                                <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                                                <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+                                                <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+                                                <Output name="onStopped" type="3" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+                                                <Output name="playAGame" type="1" type_size="1" nature="2" inner="0" tooltip="stimulated using $playAGame=1 in qiChat script when User wants to play a game&#x0A;" id="5" />
+                                                <Resource name="Speech" type="Lock" timeout="0" />
+                                                <Resource name="Speech recognition" type="Lock" timeout="0" />
+                                            </Box>
+                                            <Box name="Set Dialog Topic (1)" id="6" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="292" y="184">
+                                                <bitmap>media/images/box/box-python-script.png</bitmap>
+                                                <script language="4">
+                                                    <content>
+                                                        <![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self, False)
+
+    def onLoad(self):
+        try:
+            self.dialog = ALProxy("ALDialog")
+        except:
+            self.logger.warn("ALDialog is not available, dialog topic cannot be set")
+            self.dialog = None
+
+    def onInput_onSet(self):
+        try:
+            if self.dialog:
+                self.dialog.setFocus("Reponse")
             if self.dialog is None:
                 raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
             self.onReady()
@@ -266,17 +311,18 @@
                                                 <Output name="onReady" type="1" type_size="1" nature="2" inner="0" tooltip="Signal sent when the data has been set." id="4" />
                                             </Box>
                                             <Link inputowner="2" indexofinput="2" outputowner="3" indexofoutput="4" />
-                                            <Link inputowner="1" indexofinput="2" outputowner="2" indexofoutput="4" />
-                                            <Link inputowner="5" indexofinput="2" outputowner="0" indexofoutput="2" />
                                             <Link inputowner="3" indexofinput="2" outputowner="5" indexofoutput="4" />
+                                            <Link inputowner="4" indexofinput="2" outputowner="6" indexofoutput="4" />
+                                            <Link inputowner="5" indexofinput="2" outputowner="0" indexofoutput="2" />
+                                            <Link inputowner="1" indexofinput="2" outputowner="4" indexofoutput="4" />
+                                            <Link inputowner="6" indexofinput="2" outputowner="2" indexofoutput="4" />
                                             <Link inputowner="5" indexofinput="2" outputowner="1" indexofoutput="4" />
-                                            <Link inputowner="5" indexofinput="2" outputowner="2" indexofoutput="5" />
                                         </Diagram>
                                     </BehaviorKeyframe>
                                 </BehaviorLayer>
                             </Timeline>
                         </Box>
-                        <Box name="Guess Who Initialization" id="4" localization="8" tooltip="This box initializes de GuessWho instance" x="84" y="167">
+                        <Box name="Guess Who Initialization" id="4" localization="8" tooltip="This box initializes de GuessWho instance" x="79" y="157">
                             <bitmap>media/images/box/box-python-script.png</bitmap>
                             <script language="4">
                                 <content>
@@ -419,7 +465,7 @@ class MyClass(GeneratedClass):
                             <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
                             <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="2" />
                         </Box>
-                        <Box name="Demarrage" id="5" localization="8" tooltip="Boite permettant de démarrarer le programme" x="507" y="122">
+                        <Box name="Demarrage" id="5" localization="8" tooltip="Boite permettant de démarrarer le programme" x="381" y="32">
                             <bitmap>media/images/box/box-diagram.png</bitmap>
                             <script language="4">
                                 <content>
@@ -435,7 +481,7 @@ class MyClass(GeneratedClass):
                                 <BehaviorLayer name="behavior_layer1">
                                     <BehaviorKeyframe name="keyframe1" index="1">
                                         <Diagram>
-                                            <Box name="Bonjour" id="1" localization="8" tooltip="Cette box permet de dire bonjour en démarant le programme" x="143" y="88">
+                                            <Box name="Bonjour" id="1" localization="8" tooltip="Cette box permet de dire bonjour en démarant le programme" x="139" y="35">
                                                 <bitmap>media/images/box/interaction/say.png</bitmap>
                                                 <script language="4">
                                                     <content>
@@ -636,7 +682,7 @@ class MyClass(GeneratedClass):
                                                 </Timeline>
                                                 <Resource name="Speech" type="Lock" timeout="0" />
                                             </Box>
-                                            <Box name="Set Dialog Topic" id="2" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="354" y="85">
+                                            <Box name="Set Dialog Topic" id="2" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="289" y="33">
                                                 <bitmap>media/images/box/box-python-script.png</bitmap>
                                                 <script language="4">
                                                     <content>
@@ -669,7 +715,7 @@ class MyClass(GeneratedClass):
                                                 <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
                                                 <Output name="onReady" type="1" type_size="1" nature="2" inner="0" tooltip="Signal sent when the data has been set." id="4" />
                                             </Box>
-                                            <Box name="Detection_adversaire" id="9" localization="8" tooltip="Permet d&apos;attendre la réponse d&apos;un possible adversaire" x="559" y="79">
+                                            <Box name="Detection_adversaire" id="9" localization="8" tooltip="Permet d&apos;attendre la réponse d&apos;un possible adversaire" x="469" y="31">
                                                 <dialogFile>../Bonjour/Bonjour.dlg</dialogFile>
                                                 <bitmap>media/images/box/box-dialog.png</bitmap>
                                                 <script language="4">
@@ -694,7 +740,7 @@ class MyClass(GeneratedClass):
                                 </BehaviorLayer>
                             </Timeline>
                         </Box>
-                        <Box name="Initialisation" id="6" localization="8" tooltip="Boite permettant de d&apos;initialiser le jeu ou non. Si l&apos;adversaire ne veut pas jouer on peut quitter le programme ici ou le recommencer du début." x="604" y="269">
+                        <Box name="Initialisation" id="6" localization="8" tooltip="Boite permettant de d&apos;initialiser le jeu ou non. Si l&apos;adversaire ne veut pas jouer on peut quitter le programme ici ou le recommencer du début." x="383" y="182">
                             <bitmap>media/images/box/box-diagram.png</bitmap>
                             <script language="4">
                                 <content>
@@ -710,7 +756,7 @@ class MyClass(GeneratedClass):
                                 <BehaviorLayer name="behavior_layer1">
                                     <BehaviorKeyframe name="keyframe1" index="1">
                                         <Diagram>
-                                            <Box name="Say" id="4" localization="8" tooltip="Say some text. Note that you must open the box to enter the text." x="658" y="24">
+                                            <Box name="Say" id="4" localization="8" tooltip="Say some text. Note that you must open the box to enter the text." x="542" y="22">
                                                 <bitmap>media/images/box/interaction/say.png</bitmap>
                                                 <script language="4">
                                                     <content>
@@ -911,7 +957,7 @@ class MyClass(GeneratedClass):
                                                 </Timeline>
                                                 <Resource name="Speech" type="Lock" timeout="0" />
                                             </Box>
-                                            <Box name="Provocation" id="2" localization="8" tooltip="Say some text. Note that you must open the box to enter the text." x="249" y="198">
+                                            <Box name="Provocation" id="2" localization="8" tooltip="Say some text. Note that you must open the box to enter the text." x="112" y="139">
                                                 <bitmap>media/images/box/interaction/say.png</bitmap>
                                                 <script language="4">
                                                     <content>
@@ -1112,7 +1158,7 @@ class MyClass(GeneratedClass):
                                                 </Timeline>
                                                 <Resource name="Speech" type="Lock" timeout="0" />
                                             </Box>
-                                            <Box name="Set Dialog Topic" id="5" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="152" y="64">
+                                            <Box name="Set Dialog Topic" id="5" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="89" y="27">
                                                 <bitmap>media/images/box/box-python-script.png</bitmap>
                                                 <script language="4">
                                                     <content>
@@ -1145,7 +1191,7 @@ class MyClass(GeneratedClass):
                                                 <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
                                                 <Output name="onReady" type="1" type_size="1" nature="2" inner="0" tooltip="Signal sent when the data has been set." id="4" />
                                             </Box>
-                                            <Box name="Set Dialog Topic (1)" id="6" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="412" y="193">
+                                            <Box name="Set Dialog Topic (1)" id="6" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="270" y="140">
                                                 <bitmap>media/images/box/box-python-script.png</bitmap>
                                                 <script language="4">
                                                     <content>
@@ -1178,7 +1224,7 @@ class MyClass(GeneratedClass):
                                                 <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
                                                 <Output name="onReady" type="1" type_size="1" nature="2" inner="0" tooltip="Signal sent when the data has been set." id="4" />
                                             </Box>
-                                            <Box name="NegativeAttitude" id="1" localization="8" tooltip="Dans le cas où l&apos;adversaire ne veut pas jouer" x="609" y="187">
+                                            <Box name="NegativeAttitude" id="1" localization="8" tooltip="Dans le cas où l&apos;adversaire ne veut pas jouer" x="453" y="136">
                                                 <dialogFile>../Initialisation/Init_Non/Init_Non.dlg</dialogFile>
                                                 <bitmap>media/images/box/box-dialog.png</bitmap>
                                                 <script language="4">
@@ -1195,7 +1241,7 @@ class MyClass(GeneratedClass):
                                                 <Resource name="Speech" type="Lock" timeout="0" />
                                                 <Resource name="Speech recognition" type="Lock" timeout="0" />
                                             </Box>
-                                            <Box name="CommencerOuPas" id="3" localization="8" tooltip="Cette boite permet de savoir si on commence le jeu ou pas" x="323" y="65">
+                                            <Box name="CommencerOuPas" id="3" localization="8" tooltip="Cette boite permet de savoir si on commence le jeu ou pas" x="273" y="23">
                                                 <dialogFile>../Initialisation/Initialisation.dlg</dialogFile>
                                                 <bitmap>media/images/box/box-dialog.png</bitmap>
                                                 <script language="4">
@@ -1226,7 +1272,7 @@ class MyClass(GeneratedClass):
                                 </BehaviorLayer>
                             </Timeline>
                         </Box>
-                        <Box name="Preparation" id="7" localization="8" tooltip="Cette boite permet de préparer l&apos;environnement du jeu. D&apos;expliquer les règle à l&apos;adversaire" x="753" y="368">
+                        <Box name="Preparation" id="7" localization="8" tooltip="Cette boite permet de préparer l&apos;environnement du jeu. D&apos;expliquer les règle à l&apos;adversaire" x="550" y="31">
                             <bitmap>media/images/box/box-diagram.png</bitmap>
                             <script language="4">
                                 <content>
@@ -1241,7 +1287,7 @@ class MyClass(GeneratedClass):
                                 <BehaviorLayer name="behavior_layer1">
                                     <BehaviorKeyframe name="keyframe1" index="1">
                                         <Diagram>
-                                            <Box name="ConnaitRegle" id="3" localization="8" tooltip="Permet de savoir si l&apos;adversaire connait les règles du jeu" x="301" y="37">
+                                            <Box name="ConnaitRegle" id="3" localization="8" tooltip="Permet de savoir si l&apos;adversaire connait les règles du jeu" x="295" y="23">
                                                 <dialogFile>../Preparation/Preparation.dlg</dialogFile>
                                                 <bitmap>media/images/box/box-dialog.png</bitmap>
                                                 <script language="4">
@@ -1258,7 +1304,7 @@ class MyClass(GeneratedClass):
                                                 <Resource name="Speech" type="Lock" timeout="0" />
                                                 <Resource name="Speech recognition" type="Lock" timeout="0" />
                                             </Box>
-                                            <Box name="Say" id="1" localization="8" tooltip="Say some text. Note that you must open the box to enter the text." x="292" y="194">
+                                            <Box name="Say" id="1" localization="8" tooltip="Say some text. Note that you must open the box to enter the text." x="322" y="184">
                                                 <bitmap>media/images/box/interaction/say.png</bitmap>
                                                 <script language="4">
                                                     <content>
@@ -1461,7 +1507,7 @@ La première sur une caractéristique, par exemple, a t'il des lunettes. Ou alor
                                                 </Timeline>
                                                 <Resource name="Speech" type="Lock" timeout="0" />
                                             </Box>
-                                            <Box name="Repeter" id="2" localization="8" tooltip="Permet de savoir s&apos;il faut répéter les règles où non" x="617" y="47">
+                                            <Box name="Repeter" id="2" localization="8" tooltip="Permet de savoir s&apos;il faut répéter les règles où non" x="603" y="59">
                                                 <dialogFile>../Preparation/Repeter/Repeter.dlg</dialogFile>
                                                 <bitmap>media/images/box/box-dialog.png</bitmap>
                                                 <script language="4">
@@ -1478,7 +1524,7 @@ La première sur une caractéristique, par exemple, a t'il des lunettes. Ou alor
                                                 <Resource name="Speech" type="Lock" timeout="0" />
                                                 <Resource name="Speech recognition" type="Lock" timeout="0" />
                                             </Box>
-                                            <Box name="Set Dialog Topic" id="5" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="112" y="31">
+                                            <Box name="Set Dialog Topic" id="5" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="98" y="22">
                                                 <bitmap>media/images/box/box-python-script.png</bitmap>
                                                 <script language="4">
                                                     <content>
@@ -1511,7 +1557,7 @@ La première sur une caractéristique, par exemple, a t'il des lunettes. Ou alor
                                                 <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
                                                 <Output name="onReady" type="1" type_size="1" nature="2" inner="0" tooltip="Signal sent when the data has been set." id="4" />
                                             </Box>
-                                            <Box name="Set Dialog Topic (1)" id="4" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="517" y="185">
+                                            <Box name="Set Dialog Topic (1)" id="4" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="458" y="54">
                                                 <bitmap>media/images/box/box-python-script.png</bitmap>
                                                 <script language="4">
                                                     <content>
@@ -1558,7 +1604,7 @@ La première sur une caractéristique, par exemple, a t'il des lunettes. Ou alor
                                 </BehaviorLayer>
                             </Timeline>
                         </Box>
-                        <Box name="Debut" id="8" localization="8" tooltip="Boite permettant de sélectionner un personnage" x="901" y="467">
+                        <Box name="Debut" id="8" localization="8" tooltip="Boite permettant de sélectionner un personnage" x="678" y="33">
                             <bitmap>media/images/box/box-diagram.png</bitmap>
                             <script language="4">
                                 <content>
@@ -1573,7 +1619,7 @@ La première sur une caractéristique, par exemple, a t'il des lunettes. Ou alor
                                 <BehaviorLayer name="behavior_layer1">
                                     <BehaviorKeyframe name="keyframe1" index="1">
                                         <Diagram>
-                                            <Box name="ChoixPersonage" id="1" localization="8" tooltip="Permet de demander si l&apos;utilisateur a choisi un personnage" x="359" y="13">
+                                            <Box name="ChoixPersonage" id="1" localization="8" tooltip="Permet de demander si l&apos;utilisateur a choisi un personnage" x="106" y="5">
                                                 <bitmap>media/images/box/interaction/say.png</bitmap>
                                                 <script language="4">
                                                     <content>
@@ -1774,7 +1820,7 @@ class MyClass(GeneratedClass):
                                                 </Timeline>
                                                 <Resource name="Speech" type="Lock" timeout="0" />
                                             </Box>
-                                            <Box name="Personnage" id="3" localization="8" tooltip="Pour savoir si l&apos;utilisateur a choisi son personnage" x="298" y="202">
+                                            <Box name="Personnage" id="3" localization="8" tooltip="Pour savoir si l&apos;utilisateur a choisi son personnage" x="151" y="171">
                                                 <dialogFile>../Debut/Debut.dlg</dialogFile>
                                                 <bitmap>media/images/box/box-dialog.png</bitmap>
                                                 <script language="4">
@@ -1790,7 +1836,7 @@ class MyClass(GeneratedClass):
                                                 <Resource name="Speech" type="Lock" timeout="0" />
                                                 <Resource name="Speech recognition" type="Lock" timeout="0" />
                                             </Box>
-                                            <Box name="SelectCharacter" id="2" localization="8" tooltip="" x="536" y="135">
+                                            <Box name="SelectCharacter" id="2" localization="8" tooltip="" x="504" y="60">
                                                 <bitmap>media/images/box/box-python-script.png</bitmap>
                                                 <script language="4">
                                                     <content>
@@ -1820,7 +1866,7 @@ class MyClass(GeneratedClass):
                                                 <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
                                                 <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
                                             </Box>
-                                            <Box name="Set Dialog Topic" id="5" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="126" y="172">
+                                            <Box name="Set Dialog Topic" id="5" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="245" y="19">
                                                 <bitmap>media/images/box/box-python-script.png</bitmap>
                                                 <script language="4">
                                                     <content>
