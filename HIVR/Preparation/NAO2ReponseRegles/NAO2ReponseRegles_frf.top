@@ -1,0 +1,3 @@
+topic: ~NAO2ReponseRegles()
+language: frf
+u:^private("Connais-tu les règles du jeu") oui $onStopped=1

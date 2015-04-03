@@ -14,10 +14,12 @@
         <Dialog name="Debut" src="Debut/Debut.dlg" />
         <Dialog name="Question" src="Question/Question.dlg" />
         <Dialog name="Reponse" src="Reponse/Reponse.dlg" />
+        <Dialog name="NAO2ReponseRegles" src="Preparation/NAO2ReponseRegles/NAO2ReponseRegles.dlg" />
     </Dialogs>
     <Resources>
         <File name="choice_sentences" src="behavior_1/Aldebaran/choice_sentences.xml" />
         <File name="Question-Reponse" src="Question-Reponse" />
+        <File name="NAO2ConnaitRegle" src="NAO2ConnaitRegle" />
     </Resources>
     <Topics>
         <Topic name="Initialisation_frf" src="Initialisation/Initialisation_frf.top" topicName="Initialisation" language="fr_FR" />
@@ -30,6 +32,7 @@
         <Topic name="ExampleDialog_enu" src="behavior_1/ExampleDialog/ExampleDialog_enu.top" topicName="ExampleDialog" language="enu" />
         <Topic name="Question_frf" src="Question/Question_frf.top" topicName="Question" language="fr_FR" />
         <Topic name="Reponse_frf" src="Reponse/Reponse_frf.top" topicName="Reponse" language="fr_FR" />
+        <Topic name="NAO2ReponseRegles_frf" src="Preparation/NAO2ReponseRegles/NAO2ReponseRegles_frf.top" topicName="NAO2ReponseRegles" language="fr_FR" />
     </Topics>
     <IgnoredPaths />
 </Package>

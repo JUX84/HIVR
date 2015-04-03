@@ -2,3 +2,4 @@ topic: ~Bonjour()
 language: frf
 
 u:^private(["bonjour" "salut" "yo"]) Veux-tu jouer à Qui est-ce ? $onStopped=1
+u:^private("Veux-tu jouer à Qui est-ce") Oui $outNAO2=1 
