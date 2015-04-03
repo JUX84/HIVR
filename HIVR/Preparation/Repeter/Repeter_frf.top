@@ -1,5 +1,5 @@
 topic: ~Repeter()
 language: frf
 
-u:(["oui" "je n'ai pas bien compris" "j'aimerais bien"]) Dans ce cas je vais répéter $outPositive=1
-u:(["non" "j'ai tout compris" "on peut y aller"]) $outNegative=1
+u:^private(["oui" "je n'ai pas bien compris" "j'aimerais bien"]) Dans ce cas je vais répéter $outPositive=1
+u:^private(["non" "j'ai tout compris" "on peut y aller"]) $outNegative=1

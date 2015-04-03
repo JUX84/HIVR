@@ -1,5 +1,5 @@
 topic: ~Init_Non()
 language: frf
 
-u:(["oui" "j'ai peur" "je suis faible"]) $outNegative=1
-u:(["non" "c'est bon go" "tu me prend pour qui"]) $outPositive=1
+u:^private(["oui" "j'ai peur" "je suis faible"]) $outNegative=1
+u:^private(["non" "c'est bon go" "tu me prend pour qui"]) $outPositive=1

@@ -1,4 +1,4 @@
 topic: ~Bonjour()
 language: frf
 
-u:(["bonjour" "salut" "yo"]) Veux-tu jouer à Qui est-ce ? $onStopped=1
+u:^private(["bonjour" "salut" "yo"]) Veux-tu jouer à Qui est-ce ? $onStopped=1

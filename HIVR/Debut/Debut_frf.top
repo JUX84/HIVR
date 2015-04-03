@@ -1,5 +1,5 @@
 topic: ~Debut()
 language: frf
 
-u:(["oui" "c'est bon" "je suis pret"]) Je te laisse donc commencer $outPositive=1
-u:(["non" "j'ai pas compris" ]) Je vais donc attendre encore un peu $outNegative=1
+u:^private(["oui" "c'est bon" "je suis pret"]) Je te laisse donc commencer $outPositive=1
+u:^private(["non" "j'ai pas compris" ]) Je vais donc attendre encore un peu $outNegative=1

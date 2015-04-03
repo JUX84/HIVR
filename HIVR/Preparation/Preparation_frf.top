@@ -1,5 +1,5 @@
 topic: ~Preparation()
 language: frf
 
-u:(["oui" "je connais bien ce jeu" "on peut y aller"]) Alors on va pouvoir commencer $outPositive=1
-u:(["non" "je ne connais pas" "j'en ai aucune idée"]) $outNegative=1
+u:^private(["oui" "je connais bien ce jeu" "on peut y aller"]) Alors on va pouvoir commencer $outPositive=1
+u:^private(["non" "je ne connais pas" "j'en ai aucune idée"]) $outNegative=1
