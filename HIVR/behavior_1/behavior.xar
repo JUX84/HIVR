@@ -47,6 +47,7 @@
         try:
             if self.asr:
                 self.asr.setLanguage( self.getParameter("Language") )
+                self.asr.setAudioExpression(False)
             if self.tts:
                 self.tts.setLanguage( self.getParameter("Language") )
             if self.dialog:
