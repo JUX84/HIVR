@@ -1,5 +1,7 @@
 topic: ~Debut()
 language: frf
 
-u:^private(["oui" "c'est bon" "je suis pret"]) Je te laisse donc commencer $outPositive=1
-u:^private(["non" "j'ai pas compris" ]) Je vais donc attendre encore un peu $outNegative=1
+u:^private([oui "c'est bon" "je suis pret"]) Je te laisse donc commencer $outPositive=1
+u:^private([non]) Je vais donc attendre encore un peu $outNegative=1
+u:^private(["Je n'ai pas compris" "Peux tu répéter" Répète Quoi Comment]) Je vais donc répéter $outNegative=1
+u:^private (*) Je n'ai pas compris

@@ -3,3 +3,5 @@ language: frf
 
 u:^private(["bonjour" "salut" "yo"]) Veux-tu jouer à Qui est-ce ? $onStopped=1
 u:^private("Veux-tu jouer à Qui est-ce") Oui $outNAO2=1 
+u:^private(["Je n'ai pas compris" "Peux tu répéter" Répète Quoi Comment "tu as pas compris quoi"]) Je vais donc répéter $outPC=1
+u:^private (*) Je n'ai pas compris

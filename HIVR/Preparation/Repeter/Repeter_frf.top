@@ -3,3 +3,5 @@ language: frf
 
 u:^private(["oui" "je n'ai pas bien compris" "j'aimerais bien"]) Dans ce cas je vais répéter $outPositive=1
 u:^private(["non" "j'ai tout compris" "on peut y aller"]) $outNegative=1
+u:^private(["Je n'ai pas compris" "Peux tu répéter" Répète Quoi Comment]) Je vais donc répéter $outPC=1
+u:^private (*) Je n'ai pas compris
