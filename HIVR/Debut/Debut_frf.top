@@ -3,5 +3,5 @@ language: frf
 
 u:^private([oui "c'est bon" "je suis pret"]) Je te laisse donc commencer $outPositive=1
 u:^private([non]) Je vais donc attendre encore un peu $outNegative=1
-u:^private(["Je n'ai pas compris"]) $outNegative=1
-u:^private (*) Je n'ai pas compris
+#u:^private(["Je n'ai pas compris"]) $outNegative=1
+#u:^private (*) Je n'ai pas compris
