@@ -15,6 +15,7 @@
         <Dialog name="Question" src="Question/Question.dlg" />
         <Dialog name="Reponse" src="Reponse/Reponse.dlg" />
         <Dialog name="NAO2ReponseRegles" src="Preparation/NAO2ReponseRegles/NAO2ReponseRegles.dlg" />
+        <Dialog name="ReponsePersonnage" src="Debut/ReponsePersonnage/ReponsePersonnage.dlg" />
     </Dialogs>
     <Resources>
         <File name="choice_sentences" src="behavior_1/Aldebaran/choice_sentences.xml" />
@@ -33,6 +34,7 @@
         <Topic name="Question_frf" src="Question/Question_frf.top" topicName="Question" language="fr_FR" />
         <Topic name="Reponse_frf" src="Reponse/Reponse_frf.top" topicName="Reponse" language="fr_FR" />
         <Topic name="NAO2ReponseRegles_frf" src="Preparation/NAO2ReponseRegles/NAO2ReponseRegles_frf.top" topicName="NAO2ReponseRegles" language="fr_FR" />
+        <Topic name="ReponsePersonnage_frf" src="Debut/ReponsePersonnage/ReponsePersonnage_frf.top" topicName="ReponsePersonnage" language="fr_FR" />
     </Topics>
     <IgnoredPaths />
 </Package>

@@ -1,7 +1,7 @@
 topic: ~Preparation()
 language: frf
 
-u:^private(["oui" "je connais bien ce jeu" "on peut y aller"]) Alors on va pouvoir commencer $outPositive=1
+u:^private(["oui" "je connais bien ce jeu" "on peut y aller"]) $outPositive=1
 u:^private(["non" "je ne connais pas" "j'en ai aucune idée"]) $outNegative=1
 u:^private(["Je n'ai pas compris" "Peux tu répéter" Répète Quoi Comment]) Je vais donc répéter $outPC=1
 u:^private (*) Je n'ai pas compris
