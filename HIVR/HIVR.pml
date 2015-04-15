@@ -19,8 +19,6 @@
     </Dialogs>
     <Resources>
         <File name="choice_sentences" src="behavior_1/Aldebaran/choice_sentences.xml" />
-        <File name="Question-Reponse" src="Question-Reponse" />
-        <File name="NAO2ConnaitRegle" src="NAO2ConnaitRegle" />
     </Resources>
     <Topics>
         <Topic name="Initialisation_frf" src="Initialisation/Initialisation_frf.top" topicName="Initialisation" language="fr_FR" />

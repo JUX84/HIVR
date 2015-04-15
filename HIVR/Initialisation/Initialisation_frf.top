@@ -1,7 +1,7 @@
 topic: ~Initialisation()
 language: frf
 
-u:^private(["oui" "ok" "go"]) $outPositive=1
+u:^private(["oui" "ok" "go"]) connais tu les regles du jeu ? $outPositive=1
 u:^private(["non" "j'ai peur" "pas maintenant"]) $outNegative=1
 #u:^private(["Je n'ai pas compris"]) $outPC=1
 #u:^private (*) Je n'ai pas compris
