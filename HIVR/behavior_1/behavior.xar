@@ -376,64 +376,65 @@ class Character:
 
 class GuessWho:
     character = Character("", [])
-    characters = []
+    mesCharacters = []
+    adversaireCharacters = []
     current = []
     availableTraits = []
     okTraits = []
     koTraits = []
 
     def chars(self):
-        return self.characters
+        return self.mesCharacters
 
     def init(self):
-        self.characters.append(Character("tony", ["homme", "caucasien", "blond", "vert", "basket"]))
-        self.characters.append(Character("max", ["homme", "caucasien",  "casque", "bleu", "hockey"]))
-        self.characters.append(Character("hugo", ["homme", "caucasien", "casque", "jaune", "ski"]))
-        self.characters.append(Character("manon", ["femme", "caucasien", "brun", "bleu", "foot"]))
-        self.characters.append(Character("laura", ["femme", "caucasien", "blond", "vert", "basket"]))
-        self.characters.append(Character("michelle", ["femme", "caucasien", "brun", "chapeau", "rouge", "equitation"]))
-        self.characters.append(Character("nicolas", ["homme", "caucasien", "brun", "blanc", "tennis"]))
-        self.characters.append(Character("kevin", ["homme", "black", "brun", "bandeau", "jaune", "basket"]))
-        self.characters.append(Character("pauline", ["femme", "caucasien", "brun", "bonnet", "bleu", "natation"]))
-        self.characters.append(Character("romain", ["homme", "caucasien", "roux", "rouge", "foot"]))
-        self.characters.append(Character("sarah", ["femme", "caucasien", "brun", "bandeau", "jaune", "foot"]))
-        self.characters.append(Character("leo", ["homme", "black", "brun", "chapeau", "bleu", "golf"]))
-        self.characters.append(Character("thomas", ["homme", "black", "brun", "chaussure", "rouge", "hockey"]))
-        self.characters.append(Character("chloe", ["femme", "caucasien", "brun", "chapeau", "blanc", "tennis"]))
-        self.characters.append(Character("julie", ["femme", "caucasien", "blonde", "chapeau","chaussure", "vert", "golf"]))
-        self.characters.append(Character("lea", ["femme", "caucasien", "brun", "bandeau", "jaune", "volley"]))
-        self.characters.append(Character("theo", ["homme", "caucasien", "roux", "bonnet", "bleu", "ski"]))
-        self.characters.append(Character("alex", ["homme", "caucasien", "blond", "bandeau", "rouge","balle", "tennis"]))
-        self.characters.append(Character("anais", ["femme", "caucasien", "bleu","blanc", "golf"]))
-        self.characters.append(Character("mathilde", ["femme", "black", "brun", "chaussure", "rouge", "foot"]))
-        self.characters.append(Character("fabio", ["homme", "caucasien", "bleu", "chaussure", "blanc", "foot"]))
-        self.characters.append(Character("michael", ["homme", "caucasien", "roux", "rouge", "basket"]))
-        self.characters.append(Character("katie", ["femme", "black", "brun", "bonnet", "jaune", "ski"]))
-        self.characters.append(Character("marion", ["femme", "caucasien", "roux", "bandeau", "blanc", "basket"]))
+        self.mesCharacters.append(Character("tony", ["homme", "caucasien", "blond", "vert", "basket"]))
+        self.mesCharacters.append(Character("max", ["homme", "caucasien",  "casque", "bleu", "hockey"]))
+        self.mesCharacters.append(Character("hugo", ["homme", "caucasien", "casque", "jaune", "ski"]))
+        self.mesCharacters.append(Character("manon", ["femme", "caucasien", "brun", "bleu", "foot"]))
+        self.mesCharacters.append(Character("laura", ["femme", "caucasien", "blond", "vert", "basket"]))
+        self.mesCharacters.append(Character("michelle", ["femme", "caucasien", "brun", "chapeau", "rouge", "equitation"]))
+        self.mesCharacters.append(Character("nicolas", ["homme", "caucasien", "brun", "blanc", "tennis"]))
+        self.mesCharacters.append(Character("kevin", ["homme", "black", "brun", "bandeau", "jaune", "basket"]))
+        self.mesCharacters.append(Character("pauline", ["femme", "caucasien", "brun", "bonnet", "bleu", "natation"]))
+        self.mesCharacters.append(Character("romain", ["homme", "caucasien", "roux", "rouge", "foot"]))
+        self.mesCharacters.append(Character("sarah", ["femme", "caucasien", "brun", "bandeau", "jaune", "foot"]))
+        self.mesCharacters.append(Character("leo", ["homme", "black", "brun", "chapeau", "bleu", "golf"]))
+        self.mesCharacters.append(Character("thomas", ["homme", "black", "brun", "chaussure", "rouge", "hockey"]))
+        self.mesCharacters.append(Character("chloe", ["femme", "caucasien", "brun", "chapeau", "blanc", "tennis"]))
+        self.mesCharacters.append(Character("julie", ["femme", "caucasien", "blonde", "chapeau","chaussure", "vert", "golf"]))
+        self.mesCharacters.append(Character("lea", ["femme", "caucasien", "brun", "bandeau", "jaune", "volley"]))
+        self.mesCharacters.append(Character("theo", ["homme", "caucasien", "roux", "bonnet", "bleu", "ski"]))
+        self.mesCharacters.append(Character("alex", ["homme", "caucasien", "blond", "bandeau", "rouge","balle", "tennis"]))
+        self.mesCharacters.append(Character("anais", ["femme", "caucasien", "bleu","blanc", "golf"]))
+        self.mesCharacters.append(Character("mathilde", ["femme", "black", "brun", "chaussure", "rouge", "foot"]))
+        self.mesCharacters.append(Character("fabio", ["homme", "caucasien", "bleu", "chaussure", "blanc", "foot"]))
+        self.mesCharacters.append(Character("michael", ["homme", "caucasien", "roux", "rouge", "basket"]))
+        self.mesCharacters.append(Character("katie", ["femme", "black", "brun", "bonnet", "jaune", "ski"]))
+        self.mesCharacters.append(Character("marion", ["femme", "caucasien", "roux", "bandeau", "blanc", "basket"]))
+        self.adversaireCharacters = copy(self.mesCharacters)
     def initA(self):
         self.init()
-        self.character = self.characters[0]
+        self.character = self.mesCharacters[0]
 
     def initB(self):
         self.init()
-        self.character = self.characters[23]
+        self.character = self.mesCharacters[23]
 
     def check(self, infos):
         return self.character.check(infos)
 
     def refTraits(self):
         self.availableTraits = []
-        for character in self.characters:
+        for character in self.mesCharacters:
             for trait in character.getTraits():
                 if self.koTraits.count(trait) == 0 and self.okTraits.count(trait) == 0:
                     self.availableTraits.append(trait)
 
     def ask(self):
-        if len(self.characters) == 0:
-            self.status = "error"
+        if len(self.mesCharacters) == 0:
             return "il y a un probleme"
-        if len(self.characters) == 1:
-            self.current = ["name", copy(self.characters[0].getName())]
+        if len(self.mesCharacters) == 1:
+            self.current = ["name", copy(self.mesCharacters[0].getName())]
             return "est-ce "+self.current[1]
         self.refTraits()
         trait = self.availableTraits.pop(0)
@@ -451,11 +452,11 @@ class GuessWho:
                 self.koTraits.append(copy(self.current[1]))
             if bool == True:
                 self.okTraits.append(copy(self.current[1]))
-            tmp = copy(self.characters)
-            self.characters = []
+            tmp = copy(self.mesCharacters)
+            self.mesCharacters = []
             for character in tmp:
                 if character.check(self.current) == bool:
-                    self.characters.append(copy(character))
+                    self.mesCharacters.append(copy(character))
 
 class MyClass(GeneratedClass):
     def __init__(self):
