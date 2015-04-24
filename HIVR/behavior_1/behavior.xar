@@ -325,7 +325,7 @@
                                 </BehaviorLayer>
                             </Timeline>
                         </Box>
-                        <Box name="Guess Who Initialization" id="4" localization="8" tooltip="This box initializes de GuessWho instance" x="79" y="157">
+                        <Box name="Guess Who Initialization" id="4" localization="8" tooltip="This box initializes de GuessWho instance" x="83" y="167">
                             <bitmap>media/images/box/box-python-script.png</bitmap>
                             <script language="4">
                                 <content>
@@ -429,14 +429,16 @@ class GuessWho:
                     self.availableTraits.append(trait)
 
     def ask(self):
+        if len(self.characters) == 0:
+            self.status = "error"
+            return "il y a un probleme"
         if len(self.characters) == 1:
             self.current = ["name", copy(self.characters[0].getName())]
             return "est-ce "+self.current[1]
-        else:
-            self.refTraits()
-            trait = self.availableTraits.pop(0)
-            self.current = ["trait", copy(trait)]
-            return "est-il "+self.current[1]
+        self.refTraits()
+        trait = self.availableTraits.pop(0)
+        self.current = ["trait", copy(trait)]
+        return "est-il "+self.current[1]
 
     def process(self, bool):
         if self.current[0] == "name":
