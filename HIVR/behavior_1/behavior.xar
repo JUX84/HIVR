@@ -421,6 +421,12 @@ class GuessWho:
         self.character = self.mesCharacters[23]
 
     def check(self, infos):
+        if infos.getKey() == "trait":
+            tmp = copy(self.adversaireCharacters)
+            self.adversaireCharacters = []
+            for character in tmp:
+                if character.check(infos) == true:
+                    self.adversaireCharacters.append(copy(character))
         return self.character.check(infos)
 
     def refTraits(self):
