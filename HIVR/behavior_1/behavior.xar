@@ -425,7 +425,7 @@ class GuessWho:
             tmp = copy(self.adversaireCharacters)
             self.adversaireCharacters = []
             for character in tmp:
-                if character.check(infos) == true:
+                if character.check(infos) == True:
                     self.adversaireCharacters.append(copy(character))
         return self.character.check(infos)
 
