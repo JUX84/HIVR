@@ -214,7 +214,7 @@
 
     def onInput_onStart(self, p):
         global guesswho
-        if p.split(';')[1] == "true":
+        if p.split(';')[1] == " oui":
             guesswho.process(True)
         else:
             guesswho.process(False)
@@ -382,11 +382,13 @@ class GuessWho:
     availableTraits = []
     okTraits = []
     koTraits = []
+    status = "idle"
 
     def chars(self):
         return self.mesCharacters
 
     def init(self):
+        self.status = "play"
         self.mesCharacters.append(Character("tony", ["homme", "caucasien", "blond", "vert", "basket"]))
         self.mesCharacters.append(Character("max", ["homme", "caucasien",  "casque", "bleu", "hockey"]))
         self.mesCharacters.append(Character("hugo", ["homme", "caucasien", "casque", "jaune", "ski"]))
@@ -438,6 +440,7 @@ class GuessWho:
 
     def ask(self):
         if len(self.mesCharacters) == 0:
+            self.status = "error"
             return "il y a un probleme"
         if len(self.mesCharacters) == 1:
             self.current = ["name", copy(self.mesCharacters[0].getName())]
@@ -450,9 +453,9 @@ class GuessWho:
     def process(self, bool):
         if self.current[0] == "name":
             if bool == True:
-                return "j'ai gagne"
+                self.status = "won"
             else:
-                return "j'ai perdu"
+                self.status = "lost"
         else:
             if bool == False:
                 self.koTraits.append(copy(self.current[1]))
@@ -463,6 +466,15 @@ class GuessWho:
             for character in tmp:
                 if character.check(self.current) == bool:
                     self.mesCharacters.append(copy(character))
+
+    def getTraits(self):
+        str = ""
+        for trait in self.okTraits:
+            str += trait + " "
+        str += "-"
+        for trait in self.koTraits:
+            str += " " + trait
+        return str
 
     def win(self):
         nombrePersonnageTotal = 24
@@ -480,6 +492,9 @@ class GuessWho:
 
         nombreCaracteristiques = len(tmp)
         return " nombreCaracteristiques = "+ str(nombreCaracteristiques) + " nombrePersonnage = " + str(nombrePersonnage) + " " +str(100 -((nombrePersonnage+nombreCaracteristiques)/(nombrePersonnageTotal+nombreCaracteristiquesTotal)*100))
+
+    def getStatus(self):
+        return self.status
 
 
 class MyClass(GeneratedClass):
