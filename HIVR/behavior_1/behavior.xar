@@ -445,7 +445,7 @@ class GuessWho:
         self.refTraits()
         trait = self.availableTraits.pop(0)
         self.current = ["trait", copy(trait)]
-        return "est-il "+self.current[1]
+        return "est-il "+self.current[1] + self.win()
 
     def process(self, bool):
         if self.current[0] == "name":
@@ -465,23 +465,25 @@ class GuessWho:
                     self.mesCharacters.append(copy(character))
     def win(self):
         nombrePersonnageTotal = 24
-        nombreCaracteristiquesTotal = 26
+        nombreCaracteristiquesTotal = 28
         nombrePersonnage = 0
         nombreCaracteristiques = 0
         tmp = []
+        present = False
 
         nombrePersonnage = len(self.mesCharacters)
         for character in self.mesCharacters:
             for traits in character.getTraits():
-                if len(tmp) == 0:
+                present = False
+                for traitstmp in tmp:
+                    if traitstmp == traits:
+                        present = True
+                        break
+                if present == False:
                     tmp.append(copy(traits))
-                else:
-                    for traitstmp in tmp:
-                        if traitstmp == traits:
-                            break
-                        else:
-                            tmp.append(copy(traits))
-        return 1 - (((nombreCaracteristiques/nombrePersonnage)*100)/(nombreCaracteristiquesTotal/nombrePersonnageTotal))
+
+        nombreCaracteristiques = len(tmp)
+        return "nombreCaracteristiques = "+ str(nombreCaracteristiques) + " nombrePersonnage = " + str(nombrePersonnage) + " " +str((nombreCaracteristiquesTotal/nombrePersonnageTotal)/((nombreCaracteristiques/nombrePersonnage)*100))
 
 
 class MyClass(GeneratedClass):
