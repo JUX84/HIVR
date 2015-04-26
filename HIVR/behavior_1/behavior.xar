@@ -479,7 +479,7 @@ class GuessWho:
                     tmp.append(copy(trait))
 
         nombreCaracteristiques = len(tmp)
-        return " nombreCaracteristiques = "+ str(nombreCaracteristiques) + " nombrePersonnage = " + str(nombrePersonnage) + " " +str((nombreCaracteristiquesTotal/nombrePersonnageTotal)/((nombreCaracteristiques/nombrePersonnage)*100))
+        return " nombreCaracteristiques = "+ str(nombreCaracteristiques) + " nombrePersonnage = " + str(nombrePersonnage) + " " +str(100 -((nombrePersonnage+nombreCaracteristiques)/(nombrePersonnageTotal+nombreCaracteristiquesTotal)*100))
 
 
 class MyClass(GeneratedClass):
