@@ -463,6 +463,7 @@ class GuessWho:
             for character in tmp:
                 if character.check(self.current) == bool:
                     self.mesCharacters.append(copy(character))
+
     def win(self):
         nombrePersonnageTotal = 24
         nombreCaracteristiquesTotal = 28
@@ -473,17 +474,12 @@ class GuessWho:
 
         nombrePersonnage = len(self.mesCharacters)
         for character in self.mesCharacters:
-            for traits in character.getTraits():
-                present = False
-                for traitstmp in tmp:
-                    if traitstmp == traits:
-                        present = True
-                        break
-                if present == False:
-                    tmp.append(copy(traits))
+            for trait in character.getTraits():
+                if tmp.count(trait) == 0:
+                    tmp.append(copy(trait))
 
         nombreCaracteristiques = len(tmp)
-        return "nombreCaracteristiques = "+ str(nombreCaracteristiques) + " nombrePersonnage = " + str(nombrePersonnage) + " " +str((nombreCaracteristiquesTotal/nombrePersonnageTotal)/((nombreCaracteristiques/nombrePersonnage)*100))
+        return " nombreCaracteristiques = "+ str(nombreCaracteristiques) + " nombrePersonnage = " + str(nombrePersonnage) + " " +str((nombreCaracteristiquesTotal/nombrePersonnageTotal)/((nombreCaracteristiques/nombrePersonnage)*100))
 
 
 class MyClass(GeneratedClass):
