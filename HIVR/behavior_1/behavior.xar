@@ -442,13 +442,13 @@ class GuessWho:
         if len(self.mesCharacters) == 0:
             self.status = "error"
             return "il y a un probleme"
-        if len(self.mesCharacters) == 1:
+        if len(self.mesCharacters) == 1 or self.lose() > 80.:
             self.current = ["name", copy(self.mesCharacters[0].getName())]
             return "est-ce "+self.current[1]
         self.refTraits()
         trait = self.availableTraits.pop(0)
         self.current = ["trait", copy(trait)]
-        return "est-il "+self.current[1] + self.win()
+        return "est-il "+self.current[1]
 
     def process(self, bool):
         if self.current[0] == "name":
@@ -476,22 +476,28 @@ class GuessWho:
             str += " " + trait
         return str
 
-    def win(self):
-        nombrePersonnageTotal = 24
-        nombreCaracteristiquesTotal = 28
-        nombrePersonnage = 0
-        nombreCaracteristiques = 0
+    def risque(self, tableauPersonnage):
+        nombrePersonnageTotal = 24.
+        nombreCaracteristiquesTotal = 28.
+        nombrePersonnage = 0.
+        nombreCaracteristiques = 0.
         tmp = []
         present = False
 
-        nombrePersonnage = len(self.mesCharacters)
-        for character in self.mesCharacters:
+        nombrePersonnage = len(tableauPersonnage)
+        for character in tableauPersonnage:
             for trait in character.getTraits():
                 if tmp.count(trait) == 0:
                     tmp.append(copy(trait))
 
         nombreCaracteristiques = len(tmp)
-        return " nombreCaracteristiques = "+ str(nombreCaracteristiques) + " nombrePersonnage = " + str(nombrePersonnage) + " " +str(100 -((nombrePersonnage+nombreCaracteristiques)/(nombrePersonnageTotal+nombreCaracteristiquesTotal)*100))
+        return (100. -(((nombrePersonnage+nombreCaracteristiques)/(nombrePersonnageTotal+nombreCaracteristiquesTotal))*100.))
+
+    def lose(self):
+        return self.risque(self.adversaireCharacters)
+
+    def win(self):
+        return self.risque(self.mesCharacters)
 
     def getStatus(self):
         return self.status
