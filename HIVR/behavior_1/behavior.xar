@@ -166,6 +166,7 @@
                 self.tts.say("Oui")
             else:
                 self.tts.say("Non")
+        time.sleep(1)
         self.tts.say(guesswho.ask())
         self.onStopped() #activate the output of the box
 
