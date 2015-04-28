@@ -1059,7 +1059,7 @@ class MyClass(GeneratedClass):
 		self.sentences = {
 			"Chinese" : " 你好 ",
 			"English" : " Hello ",
-			"French" : " Veux-tu jouer à Qui est-ce avec moi ? ",
+			"French" : " Veux-tu jouer ? ",
 			"German" : " Hallo ",
 			"Italian" : " Ciao ",
 			"Japanese" : " こんにちは ",
@@ -1091,7 +1091,7 @@ class MyClass(GeneratedClass):
                                                                             <![CDATA[Hello]]>
 </english>
                                                                         <french>
-                                                                            <![CDATA[Veux-tu jouer à Qui est-ce avec moi ?]]>
+                                                                            <![CDATA[Veux-tu jouer ?]]>
 </french>
                                                                         <german>
                                                                             <![CDATA[Hallo]]>

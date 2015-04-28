@@ -1,4 +1,4 @@
 topic: ~NAO2ReponseRegles()
 language: frf
-u:^private("Connais-tu les règles du jeu") oui $onStopped=1
-u:^private(*) Je n'ai pas bien compris ce que tu viens de me dire, mais j'adore ce jeu. es qu'on peut commencer ? $onStopped=1
+u:^private("Connais-tu les règles") oui $onStopped=1
+#u:^private(*) Je n'ai pas bien compris ce que tu viens de me dire, mais j'adore ce jeu. es qu'on peut commencer ? $onStopped=1
