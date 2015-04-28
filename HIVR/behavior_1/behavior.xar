@@ -394,6 +394,10 @@ class GuessWho:
     goodiesM = ["bandeau", "casque", "chapeau", "bonnet"]
     goodiesF = ["balle", "chaussure"]
     status = "idle"
+    dialog = ""
+
+    def __init__(self, dialog):
+        self.dialog = dialog
 
     def generateQuestion(self, trait):
         if self.ethnies.count(trait) > 0:
@@ -481,9 +485,9 @@ class GuessWho:
         if len(self.mesCharacters) == 1:
             self.current = ["name", copy(self.mesCharacters[0].getName())]
             return "est-ce "+self.current[1]
-        if self.lose() > 90.:
-            self.current = ["name", copy(self.mesCharacters[random.randint(0,len(self.mesCharacters)-1)].getName())]
-            return "est-ce "+self.current[1]
+        #if self.lose() > 90.:
+        #    self.current = ["name", copy(self.mesCharacters[random.randint(0,len(self.mesCharacters)-1)].getName())]
+        #    return "est-ce "+self.current[1]
         self.refTraits()
         trait = self.availableTraits.pop(0)
         self.current = ["trait", copy(trait)]
@@ -500,6 +504,7 @@ class GuessWho:
                 self.koTraits.append(copy(self.current[1]))
             if bool == True:
                 self.okTraits.append(copy(self.current[1]))
+            #self.dialog.deactivateTag("sex", "Question")
             tmp = copy(self.mesCharacters)
             self.mesCharacters = []
             for character in tmp:
@@ -548,7 +553,10 @@ class MyClass(GeneratedClass):
 
     def onLoad(self):
         global guesswho
-        guesswho = GuessWho()]]>
+        try:
+            guesswho = GuessWho(ALProxy("ALDialog"))
+        except:
+            self.logger.warn("ALDialog is not available, language setting cannot be applied to dialog")]]>
 </content>
                             </script>
                             <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
