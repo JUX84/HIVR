@@ -20,4 +20,4 @@ u:^private("fait-[il elle] du [foot football]") $onStopped="trait;foot"
 u:^private("fait-[il elle] de l'equitation") $onStopped="trait;equitation"
 u:^private("fait-[il elle] de la natation") $onStopped="trait;natation"
 
-u:^private("est-ce _[tony max hugo manon laura michelle nicolas kevin pauline romain sarah leo marion]") $onStopped="name;$1"
+u:^private("est-ce _[tony max hugo manon laura michelle nicolas kévin pauline romain sarah léo katie michel fabio mathilde anais alex théo léa julie chloé thomas marion]") $onStopped="name;$1"

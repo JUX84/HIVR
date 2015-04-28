@@ -2,6 +2,6 @@ topic: ~Initialisation()
 language: frf
 
 u:^private(oui) connais tu les règles ? $outPositive=1
-u:^private(non)Tu as peur de perdre, hein... T'es sûr ? Tu ne veux pas jouer ? $outNegative=1
+#u:^private(non)Tu as peur de perdre, hein... T'es sûr ? Tu ne veux pas jouer ? $outNegative=1
 #u:^private(["Je n'ai pas compris"]) $outPC=1
 #u:^private (*) Je n'ai pas compris
