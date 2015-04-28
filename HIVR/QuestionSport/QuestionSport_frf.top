@@ -1,0 +1,7 @@
+topic: ~QuestionSport()
+language: frf
+
+u:^private("fait-[il elle] du _[basket hockey ski tennis golf]") %sport $onStopped="trait;$1"
+u:^private("fait-[il elle] du [foot football]") %sport $onStopped="trait;foot"
+u:^private("fait-[il elle] de l'equitation") %sport $onStopped="trait;equitation"
+u:^private("fait-[il elle] de la natation") %sport $onStopped="trait;natation"

@@ -1,0 +1,4 @@
+topic: ~QuestionEthnie()
+language: frf
+
+u:^private("est-[il elle] _[caucasien black asiat]") %ethnie $onStopped="trait;$1"

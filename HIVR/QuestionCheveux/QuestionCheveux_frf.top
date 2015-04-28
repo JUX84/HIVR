@@ -1,0 +1,4 @@
+topic: ~QuestionCheveux()
+language: frf
+
+u:^private("a-[il elle] les cheveux _[brun blond roux]") %hair $onStopped="trait;$1"

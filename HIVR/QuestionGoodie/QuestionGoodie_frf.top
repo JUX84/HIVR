@@ -1,0 +1,5 @@
+topic: ~QuestionGoodie()
+language: frf
+
+u:^private("a-t-[il elle] un _[chapeau bandeau bonnet casque]") %goodie $onStopped="trait;$1"
+u:^private("a-t-[il elle] une _[chaussure balle]") %goodie $onStopped="trait;$1"

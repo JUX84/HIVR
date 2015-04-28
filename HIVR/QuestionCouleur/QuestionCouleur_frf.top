@@ -1,0 +1,4 @@
+topic: ~QuestionCouleur()
+language: frf
+
+u:^private("est-[il elle] habille en _[vert bleu jaune rouge blanc]") %color $onStopped="trait;$1"

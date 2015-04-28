@@ -1,0 +1,5 @@
+topic: ~QuestionSex()
+language: frf
+
+u:^private("est-ce un homme") %sex $onStopped="trait;homme"
+u:^private("est-ce une femme") %sex $onStopped="trait;femme"
