@@ -249,6 +249,9 @@
     def onInput_onSet(self):
         try:
             if self.dialog:
+                for topic in self.dialog.getActivatedTopics():
+                    if topic != "Question":
+                        self.dialog.deactivateTopic(topic)
                 self.dialog.setFocus("Question")
             if self.dialog is None:
                 raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
@@ -298,6 +301,9 @@
     def onInput_onSet(self):
         try:
             if self.dialog:
+                for topic in self.dialog.getActivatedTopics():
+                    if topic != "Reponse":
+                        self.dialog.deactivateTopic(topic)
                 self.dialog.setFocus("Reponse")
             if self.dialog is None:
                 raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
@@ -798,6 +804,9 @@ class MyClass(GeneratedClass):
     def onInput_onSet(self):
         try:
             if self.dialog:
+                for topic in self.dialog.getActivatedTopics():
+                    if topic != "Bonjour":
+                        self.dialog.deactivateTopic(topic)
                 self.dialog.setFocus("Bonjour")
             if self.dialog is None:
                 raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
@@ -877,6 +886,9 @@ class MyClass(GeneratedClass):
     def onInput_onSet(self):
         try:
             if self.dialog:
+                for topic in self.dialog.getActivatedTopics():
+                    if topic != "Bonjour":
+                        self.dialog.deactivateTopic(topic)
                 self.dialog.setFocus("Initialisation")
             if self.dialog is None:
                 raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
@@ -1654,6 +1666,9 @@ La première sur une caractéristique, par exemple, a t'il des lunettes. Ou alor
     def onInput_onSet(self):
         try:
             if self.dialog:
+                for topic in self.dialog.getActivatedTopics():
+                    if topic != "Preparation":
+                        self.dialog.deactivateTopic(topic)
                 self.dialog.setFocus("Preparation")
             if self.dialog is None:
                 raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
@@ -1687,6 +1702,9 @@ La première sur une caractéristique, par exemple, a t'il des lunettes. Ou alor
     def onInput_onSet(self):
         try:
             if self.dialog:
+                for topic in self.dialog.getActivatedTopics():
+                    if topic != "Repeter":
+                        self.dialog.deactivateTopic(topic)
                 self.dialog.setFocus("Repeter")
             if self.dialog is None:
                 raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
@@ -1736,6 +1754,9 @@ La première sur une caractéristique, par exemple, a t'il des lunettes. Ou alor
     def onInput_onSet(self):
         try:
             if self.dialog:
+                for topic in self.dialog.getActivatedTopics():
+                    if topic != "NAO2ReponseRegles":
+                        self.dialog.deactivateTopic(topic)
                 self.dialog.setFocus("NAO2ReponseRegles")
             if self.dialog is None:
                 raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
@@ -2254,6 +2275,9 @@ class MyClass(GeneratedClass):
     def onInput_onSet(self):
         try:
             if self.dialog:
+                for topic in self.dialog.getActivatedTopics():
+                    if topic != "Debut":
+                        self.dialog.deactivateTopic(topic)
                 self.dialog.setFocus("Debut")
             if self.dialog is None:
                 raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
@@ -2333,6 +2357,9 @@ class MyClass(GeneratedClass):
     def onInput_onSet(self):
         try:
             if self.dialog:
+                for topic in self.dialog.getActivatedTopics():
+                    if topic != "ReponsePersonnage":
+                        self.dialog.deactivateTopic(topic)
                 self.dialog.setFocus("ReponsePersonnage")
             if self.dialog is None:
                 raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
