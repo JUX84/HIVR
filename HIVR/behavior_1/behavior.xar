@@ -462,7 +462,7 @@ class GuessWho:
 
     def initB(self):
         self.creationPersonnages()
-        self.character = self.mesCharacters[23]
+        self.character = self.mesCharacters[22]
     def init(self):
         self.creationPersonnages()
         self.character = self.mesCharacters[random.randint(0,len(self.mesCharacters)-1)]
