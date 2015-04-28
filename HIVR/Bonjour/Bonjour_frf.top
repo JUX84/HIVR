@@ -1,7 +1,7 @@
 topic: ~Bonjour()
 language: frf
 
-u:^private([Bonjour salut]) veux tu jouer $onStopped=1
+u:^private(salut) veux tu jouer $onStopped=1
 u:^private("veux tu jouer") Oui $outNAO2=1 
 #u:^private(["Je n'ai pas compris"]) $outPC=1
 #u:^private (*) Je n'ai pas compris
