@@ -4,7 +4,7 @@ language: frf
 u:^private("est-ce un [garcon homme]") $onStopped="trait;homme"
 u:^private("est-ce une [fille femme]") $onStopped="trait;femme"
 
-u:^private("est-[il elle] _[blanc black asiat]") $onStopped="trait;$1"
+u:^private("est-[il elle] _[caucasien black asiat]") $onStopped="trait;$1"
 
 u:^private("est-[il elle] [brun brune]") $onStopped="trait;brun"
 u:^private("est-[il elle] [blond blonde]") $onStopped="trait;blond"
@@ -13,6 +13,7 @@ u:^private("est-[il elle] [roux rousse]") $onStopped="trait;roux"
 u:^private("est-[il elle] habille en _[vert bleu jaune rouge blanc]") $onStopped="trait;$1"
 
 u:^private("a-t-[il elle] un _[chapeau bandeau bonnet casque]") $onStopped="trait;$1"
+u:^private("a-t-[il elle] une _[chaussure balle]") $onStopped="trait;$1"
 
 u:^private("fait-[il elle] du _[basket hockey ski tennis golf]") $onStopped="trait;$1"
 u:^private("fait-[il elle] du [foot football]") $onStopped="trait;foot"
