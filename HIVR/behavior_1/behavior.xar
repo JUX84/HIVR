@@ -450,7 +450,6 @@ class GuessWho:
         self.mesCharacters.append(Character("léa", ["femme", "caucasien", "brun", "bandeau", "jaune", "volley"]))
         self.mesCharacters.append(Character("théo", ["homme", "caucasien", "roux", "bonnet", "bleu", "ski"]))
         self.mesCharacters.append(Character("alex", ["homme", "caucasien", "blond", "bandeau", "rouge","balle", "tennis"]))
-        self.mesCharacters.append(Character("anais", ["femme", "caucasien", "bleu","blanc", "golf"]))
         self.mesCharacters.append(Character("mathilde", ["femme", "black", "brun", "chaussure", "rouge", "foot"]))
         self.mesCharacters.append(Character("fabio", ["homme", "caucasien", "bleu", "chaussure", "blanc", "foot"]))
         self.mesCharacters.append(Character("michel", ["homme", "caucasien", "roux", "rouge", "basket"]))
