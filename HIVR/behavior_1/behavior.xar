@@ -490,9 +490,9 @@ class GuessWho:
         if len(self.mesCharacters) == 1:
             self.current = ["name", copy(self.mesCharacters[0].getName())]
             return "est-ce "+self.current[1]
-        #if self.lose() > 90.:
-        #    self.current = ["name", copy(self.mesCharacters[random.randint(0,len(self.mesCharacters)-1)].getName())]
-        #    return "est-ce "+self.current[1]
+        if self.lose() > 80. and self.win() > 70.:
+            self.current = ["name", copy(self.mesCharacters[random.randint(0,len(self.mesCharacters)-1)].getName())]
+            return "est-ce "+self.current[1] + " Pourcentage = " + str(self.lose())
         self.refTraits()
         trait = self.availableTraits.pop(0)
         self.current = ["trait", copy(trait)]
@@ -540,7 +540,8 @@ class GuessWho:
                     tmp.append(copy(trait))
 
         nombreCaracteristiques = len(tmp)
-        return (100. -(((nombrePersonnage+nombreCaracteristiques)/(nombrePersonnageTotal+nombreCaracteristiquesTotal))*100.))
+        return nombrePersonnage
+        #return (100. -(((nombrePersonnage+nombreCaracteristiques)/(nombrePersonnageTotal+nombreCaracteristiquesTotal))*100.))
 
     def lose(self):
         return self.risque(self.adversaireCharacters)
