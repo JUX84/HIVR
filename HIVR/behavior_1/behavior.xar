@@ -15,7 +15,7 @@
             <BehaviorLayer name="behavior_layer1">
                 <BehaviorKeyframe name="keyframe1" index="1">
                     <Diagram>
-                        <Box name="Set Language" id="2" localization="8" tooltip="Select the language you would like the robot to speak and understand. Any following call to&#x0A;ALSpeechRecognition (Speech Reco. box for instance) or ALTextToSpeech (Say box&#x0A;for instance) will use this language." x="83" y="39">
+                        <Box name="Set Language" id="2" localization="8" tooltip="Select the language you would like the robot to speak and understand. Any following call to&#x0A;ALSpeechRecognition (Speech Reco. box for instance) or ALTextToSpeech (Say box&#x0A;for instance) will use this language." x="124" y="26">
                             <bitmap>media/images/box/interaction/say.png</bitmap>
                             <script language="4">
                                 <content>
@@ -88,7 +88,7 @@
                             </Parameter>
                             <Resource name="Speech" type="Lock" timeout="0" />
                         </Box>
-                        <Box name="Set Dialog Confidence Threshold" id="1" localization="8" tooltip="This box allows us to set the confidence threshold for ALDialog" x="224" y="32">
+                        <Box name="Set Dialog Confidence Threshold" id="1" localization="8" tooltip="This box allows us to set the confidence threshold for ALDialog" x="270" y="19">
                             <bitmap>media/images/box/box-python-script.png</bitmap>
                             <script language="4">
                                 <content>
@@ -123,7 +123,7 @@
                             <Output name="onReady" type="1" type_size="1" nature="2" inner="0" tooltip="Signal sent when the data has been set." id="4" />
                             <Parameter name="Level" inherits_from_parent="0" content_type="2" value="0.3" default_value="0.5" min="0" max="1" tooltip="" id="5" />
                         </Box>
-                        <Box name="Question-Reponse" id="3" localization="8" tooltip="Cette boite permet de gérer les question et réponse du NAO." x="887" y="28">
+                        <Box name="Question-Reponse" id="3" localization="8" tooltip="Cette boite permet de gérer les question et réponse du NAO." x="814" y="189">
                             <bitmap>media/images/box/box-diagram.png</bitmap>
                             <script language="4">
                                 <content>
@@ -161,16 +161,25 @@
 
     def onInput_onStart(self, p):
         global guesswho
-        if p != "":
-            self.logger.info(guesswho.getAdvCharCount())
-            if guesswho.check(p.split(';')) == True:
-                self.tts.say("Oui")
+        if guesswho.getStatus() == "play":
+            if p != "":
+                infos = p.split(';');
+                if guesswho.check(infos) == True:
+                    self.tts.say("Oui")
+                else:
+                    self.tts.say("Non")
+            time.sleep(3)
+            if guesswho.getStatus() == "play":
+                self.tts.say(guesswho.ask())
             else:
-                self.tts.say("Non")
-        self.logger.info(guesswho.getAdvCharCount())
-        time.sleep(3)
-        self.logger.info("DANGER: " + guesswho.getDanger())
-        self.tts.say(guesswho.ask())
+                self.logger.info(guesswho.getStatus())
+                if guesswho.getStatus() == "won":
+                    self.tts.say("J'ai gagne")
+                else:
+                    self.tts.say("J'ai perdu")
+                time.sleep(3)
+                guesswho.setStatus("idle")
+                self.over()
         self.onStopped() #activate the output of the box
 
     def onInput_onStop(self):
@@ -181,6 +190,7 @@
                                                 <Input name="onStart" type="3" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
                                                 <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
                                                 <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+                                                <Output name="over" type="1" type_size="1" nature="2" inner="0" tooltip="" id="5" />
                                             </Box>
                                             <Box name="Dialog" id="3" localization="8" tooltip="An example of multilanguage dialog implementation" x="382" y="0">
                                                 <dialogFile>../Question/Question.dlg</dialogFile>
@@ -218,10 +228,21 @@
 
     def onInput_onStart(self, p):
         global guesswho
-        if p.split(';')[1].strip() == "oui":
-            guesswho.process(True)
-        else:
-            guesswho.process(False)
+        if guesswho.getStatus() == "play":
+            if p.split(';')[1].strip() == "oui":
+                guesswho.process(True)
+            else:
+                guesswho.process(False)
+            self.tts.say("OK")
+            if guesswho.getStatus() != "play":
+                time.sleep(3)
+                if guesswho.getStatus() == "won":
+                    self.tts.say("J'ai gagne")
+                else:
+                    self.tss.say("J'ai perdu")
+                time.sleep(3)
+                guesswho.setStatus("idle")
+                self.over()
         self.onStopped() #activate the output of the box
 
     def onInput_onStop(self):
@@ -233,6 +254,7 @@
                                                 <Input name="onStart" type="3" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
                                                 <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
                                                 <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+                                                <Output name="over" type="1" type_size="1" nature="2" inner="0" tooltip="" id="5" />
                                             </Box>
                                             <Box name="Set Dialog Topic" id="5" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="194" y="52">
                                                 <bitmap>media/images/box/box-python-script.png</bitmap>
@@ -252,9 +274,6 @@
     def onInput_onSet(self):
         try:
             if self.dialog:
-                for topic in self.dialog.getActivatedTopics():
-                    if topic != "Question":
-                        self.dialog.deactivateTopic(topic)
                 self.dialog.setFocus("Question")
             if self.dialog is None:
                 raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
@@ -304,9 +323,6 @@
     def onInput_onSet(self):
         try:
             if self.dialog:
-                for topic in self.dialog.getActivatedTopics():
-                    if topic != "Reponse":
-                        self.dialog.deactivateTopic(topic)
                 self.dialog.setFocus("Reponse")
             if self.dialog is None:
                 raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
@@ -330,6 +346,8 @@
                                             <Link inputowner="6" indexofinput="2" outputowner="2" indexofoutput="4" />
                                             <Link inputowner="5" indexofinput="2" outputowner="1" indexofoutput="4" />
                                             <Link inputowner="2" indexofinput="2" outputowner="0" indexofoutput="3" />
+                                            <Link inputowner="0" indexofinput="5" outputowner="2" indexofoutput="5" />
+                                            <Link inputowner="0" indexofinput="5" outputowner="1" indexofoutput="5" />
                                         </Diagram>
                                     </BehaviorKeyframe>
                                 </BehaviorLayer>
@@ -407,6 +425,7 @@ class GuessWho:
 
     def __init__(self, dialog):
         self.dialog = dialog
+        self.status = "idle"
 
     def generateQuestion(self, trait):
         if self.ethnies.count(trait) > 0:
@@ -460,24 +479,34 @@ class GuessWho:
         self.mesCharacters.append(Character("marion", ["femme", "caucasien", "roux", "bandeau", "blanc", "basket"]))
         self.adversaireCharacters = copy(self.mesCharacters)
     def initA(self):
+        self.status = "play"
         self.creationPersonnages()
         self.character = self.mesCharacters[0]
 
     def initB(self):
+        self.status = "play"
         self.creationPersonnages()
         self.character = self.mesCharacters[22]
+
     def init(self):
+        self.status = "play"
         self.creationPersonnages()
         self.character = self.mesCharacters[random.randint(0,len(self.mesCharacters)-1)]
 
     def check(self, infos):
+        bool = self.character.check(infos)
         if infos[0] == "trait":
             tmp = copy(self.adversaireCharacters)
             self.adversaireCharacters = []
             for character in tmp:
                 if character.check(infos) == True:
                     self.adversaireCharacters.append(copy(character))
-        return self.character.check(infos)
+        if infos[0] == "name":
+            if bool == True:
+                self.status = "lost"
+            else:
+                self.status = "won"
+        return bool
 
     def getAdvCharCount(self):
         return len(self.adversaireCharacters)
@@ -496,9 +525,9 @@ class GuessWho:
         if len(self.mesCharacters) == 1:
             self.current = ["name", copy(self.mesCharacters[0].getName())]
             return "est-ce "+self.current[1]
-        if self.lose() > 70. and self.win() > 30.:
+        if self.lose() > 80. and self.win() > 70.:
             self.current = ["name", copy(self.mesCharacters[random.randint(0,len(self.mesCharacters)-1)].getName())]
-            return "est-ce "+self.current[1] + " Pourcentage = " + str(self.lose())
+            return "est-ce "+self.current[1]
         self.refTraits()
         trait = self.availableTraits.pop(0)
         self.current = ["trait", copy(trait)]
@@ -558,6 +587,9 @@ class GuessWho:
     def win(self):
         return self.risque(self.mesCharacters)
 
+    def setStatus(self, status):
+        self.status = status
+
     def getStatus(self):
         return self.status
 
@@ -577,7 +609,7 @@ class MyClass(GeneratedClass):
                             <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
                             <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="2" />
                         </Box>
-                        <Box name="Demarrage" id="5" localization="8" tooltip="Boite permettant de démarrarer le programme" x="381" y="32">
+                        <Box name="Demarrage" id="5" localization="8" tooltip="Boite permettant de démarrarer le programme" x="488" y="1">
                             <bitmap>media/images/box/box-diagram.png</bitmap>
                             <script language="4">
                                 <content>
@@ -594,7 +626,58 @@ class MyClass(GeneratedClass):
                                 <BehaviorLayer name="behavior_layer1">
                                     <BehaviorKeyframe name="keyframe1" index="1">
                                         <Diagram>
-                                            <Box name="Bonjour" id="1" localization="8" tooltip="Cette box permet de dire bonjour en démarant le programme" x="139" y="35">
+                                            <Box name="Set Dialog Topic" id="2" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="316" y="17">
+                                                <bitmap>media/images/box/box-python-script.png</bitmap>
+                                                <script language="4">
+                                                    <content>
+                                                        <![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self, False)
+
+    def onLoad(self):
+        try:
+            self.dialog = ALProxy("ALDialog")
+        except:
+            self.logger.warn("ALDialog is not available, dialog topic cannot be set")
+            self.dialog = None
+
+    def onInput_onSet(self):
+        try:
+            if self.dialog:
+                self.dialog.setFocus("Bonjour")
+            if self.dialog is None:
+                raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
+            self.onReady()
+        except:
+            error = "Dialog topic cannot be set."
+            self.logger.warn(error)
+            self.onError(error)]]>
+</content>
+                                                </script>
+                                                <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                                                <Input name="onSet" type="1" type_size="1" nature="1" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+                                                <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+                                                <Output name="onReady" type="1" type_size="1" nature="2" inner="0" tooltip="Signal sent when the data has been set." id="4" />
+                                            </Box>
+                                            <Box name="Detection_adversaire" id="9" localization="8" tooltip="Permet d&apos;attendre la réponse d&apos;un possible adversaire" x="287" y="211">
+                                                <dialogFile>../Bonjour/Bonjour.dlg</dialogFile>
+                                                <bitmap>media/images/box/box-dialog.png</bitmap>
+                                                <script language="4">
+                                                    <content>
+                                                        <![CDATA[]]>
+</content>
+                                                </script>
+                                                <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                                                <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+                                                <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+                                                <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+                                                <Output name="playAGame" type="1" type_size="1" nature="2" inner="0" tooltip="stimulated using $playAGame=1 in qiChat script when User wants to play a game&#x0A;" id="5" />
+                                                <Output name="outNAO2" type="1" type_size="1" nature="1" inner="0" tooltip="" id="6" />
+                                                <Output name="outPC" type="1" type_size="1" nature="1" inner="0" tooltip="" id="7" />
+                                                <Resource name="Speech" type="Lock" timeout="0" />
+                                                <Resource name="Speech recognition" type="Lock" timeout="0" />
+                                            </Box>
+                                            <Box name="Say" id="1" localization="8" tooltip="Say some text. Note that you must open the box to enter the text." x="115" y="31">
                                                 <bitmap>media/images/box/interaction/say.png</bitmap>
                                                 <script language="4">
                                                     <content>
@@ -697,7 +780,7 @@ class MyClass(GeneratedClass):
 		self.tts = ALProxy("ALTextToSpeech")
 		self.sentences = {
 			"Chinese" : " 你好 ",
-			"English" : " Hello ",
+			"English" : " Salut ",
 			"French" : " Salut ",
 			"German" : " Hallo ",
 			"Italian" : " Ciao ",
@@ -727,7 +810,7 @@ class MyClass(GeneratedClass):
                                                                             <![CDATA[你好]]>
 </chinese>
                                                                         <english>
-                                                                            <![CDATA[Hello]]>
+                                                                            <![CDATA[Salut]]>
 </english>
                                                                         <french>
                                                                             <![CDATA[Salut]]>
@@ -786,81 +869,27 @@ class MyClass(GeneratedClass):
                                                                     <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Data is sent on the output when this input is stimulated." id="2" />
                                                                     <Output name="onStopped" type="3" type_size="1" nature="1" inner="0" tooltip="Data sent when asked." id="3" />
                                                                 </Box>
+                                                                <Link inputowner="0" indexofinput="4" outputowner="2" indexofoutput="4" />
                                                                 <Link inputowner="5" indexofinput="2" outputowner="0" indexofoutput="2" />
                                                                 <Link inputowner="2" indexofinput="2" outputowner="5" indexofoutput="3" />
-                                                                <Link inputowner="0" indexofinput="4" outputowner="2" indexofoutput="4" />
                                                             </Diagram>
                                                         </BehaviorKeyframe>
                                                     </BehaviorLayer>
                                                 </Timeline>
                                                 <Resource name="Speech" type="Lock" timeout="0" />
                                             </Box>
-                                            <Box name="Set Dialog Topic" id="2" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="298" y="20">
-                                                <bitmap>media/images/box/box-python-script.png</bitmap>
-                                                <script language="4">
-                                                    <content>
-                                                        <![CDATA[class MyClass(GeneratedClass):
-    def __init__(self):
-        GeneratedClass.__init__(self, False)
-
-    def onLoad(self):
-        try:
-            self.dialog = ALProxy("ALDialog")
-        except:
-            self.logger.warn("ALDialog is not available, dialog topic cannot be set")
-            self.dialog = None
-
-    def onInput_onSet(self):
-        try:
-            if self.dialog:
-                for topic in self.dialog.getActivatedTopics():
-                    if topic != "Bonjour":
-                        self.dialog.deactivateTopic(topic)
-                self.dialog.setFocus("Bonjour")
-            if self.dialog is None:
-                raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
-            self.onReady()
-        except:
-            error = "Dialog topic cannot be set."
-            self.logger.warn(error)
-            self.onError(error)]]>
-</content>
-                                                </script>
-                                                <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
-                                                <Input name="onSet" type="1" type_size="1" nature="1" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
-                                                <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
-                                                <Output name="onReady" type="1" type_size="1" nature="2" inner="0" tooltip="Signal sent when the data has been set." id="4" />
-                                            </Box>
-                                            <Box name="Detection_adversaire" id="9" localization="8" tooltip="Permet d&apos;attendre la réponse d&apos;un possible adversaire" x="181" y="179">
-                                                <dialogFile>../Bonjour/Bonjour.dlg</dialogFile>
-                                                <bitmap>media/images/box/box-dialog.png</bitmap>
-                                                <script language="4">
-                                                    <content>
-                                                        <![CDATA[]]>
-</content>
-                                                </script>
-                                                <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
-                                                <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
-                                                <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
-                                                <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
-                                                <Output name="playAGame" type="1" type_size="1" nature="2" inner="0" tooltip="stimulated using $playAGame=1 in qiChat script when User wants to play a game&#x0A;" id="5" />
-                                                <Output name="outNAO2" type="1" type_size="1" nature="1" inner="0" tooltip="" id="6" />
-                                                <Output name="outPC" type="1" type_size="1" nature="1" inner="0" tooltip="" id="7" />
-                                                <Resource name="Speech" type="Lock" timeout="0" />
-                                                <Resource name="Speech recognition" type="Lock" timeout="0" />
-                                            </Box>
                                             <Link inputowner="0" indexofinput="4" outputowner="9" indexofoutput="4" />
-                                            <Link inputowner="1" indexofinput="2" outputowner="0" indexofoutput="2" />
-                                            <Link inputowner="2" indexofinput="2" outputowner="1" indexofoutput="4" />
                                             <Link inputowner="9" indexofinput="2" outputowner="2" indexofoutput="4" />
                                             <Link inputowner="0" indexofinput="6" outputowner="9" indexofoutput="6" />
+                                            <Link inputowner="1" indexofinput="2" outputowner="0" indexofoutput="2" />
+                                            <Link inputowner="2" indexofinput="2" outputowner="1" indexofoutput="4" />
                                             <Link inputowner="1" indexofinput="2" outputowner="9" indexofoutput="7" />
                                         </Diagram>
                                     </BehaviorKeyframe>
                                 </BehaviorLayer>
                             </Timeline>
                         </Box>
-                        <Box name="Initialisation" id="6" localization="8" tooltip="Boite permettant de d&apos;initialiser le jeu ou non. Si l&apos;adversaire ne veut pas jouer on peut quitter le programme ici ou le recommencer du début." x="383" y="182">
+                        <Box name="Initialisation" id="6" localization="8" tooltip="Boite permettant de d&apos;initialiser le jeu ou non. Si l&apos;adversaire ne veut pas jouer on peut quitter le programme ici ou le recommencer du début." x="278" y="294">
                             <bitmap>media/images/box/box-diagram.png</bitmap>
                             <script language="4">
                                 <content>
@@ -877,7 +906,7 @@ class MyClass(GeneratedClass):
                                 <BehaviorLayer name="behavior_layer1">
                                     <BehaviorKeyframe name="keyframe1" index="1">
                                         <Diagram>
-                                            <Box name="Set Dialog Topic" id="5" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="89" y="27">
+                                            <Box name="Set Dialog Topic" id="5" localization="8" tooltip="This box allows us to set the activated topic for dialogs" x="141" y="23">
                                                 <bitmap>media/images/box/box-python-script.png</bitmap>
                                                 <script language="4">
                                                     <content>
@@ -895,9 +924,6 @@ class MyClass(GeneratedClass):
     def onInput_onSet(self):
         try:
             if self.dialog:
-                for topic in self.dialog.getActivatedTopics():
-                    if topic != "Bonjour":
-                        self.dialog.deactivateTopic(topic)
                 self.dialog.setFocus("Initialisation")
             if self.dialog is None:
                 raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
@@ -1400,7 +1426,7 @@ class MyClass(GeneratedClass):
                                 </BehaviorLayer>
                             </Timeline>
                         </Box>
-                        <Box name="Preparation" id="7" localization="8" tooltip="Cette boite permet de préparer l&apos;environnement du jeu. D&apos;expliquer les règle à l&apos;adversaire" x="550" y="31">
+                        <Box name="Preparation" id="7" localization="8" tooltip="Cette boite permet de préparer l&apos;environnement du jeu. D&apos;expliquer les règle à l&apos;adversaire" x="480" y="183">
                             <bitmap>media/images/box/box-diagram.png</bitmap>
                             <script language="4">
                                 <content>
@@ -1675,9 +1701,6 @@ La première sur une caractéristique, par exemple, a t'il des lunettes. Ou alor
     def onInput_onSet(self):
         try:
             if self.dialog:
-                for topic in self.dialog.getActivatedTopics():
-                    if topic != "Preparation":
-                        self.dialog.deactivateTopic(topic)
                 self.dialog.setFocus("Preparation")
             if self.dialog is None:
                 raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
@@ -1711,9 +1734,6 @@ La première sur une caractéristique, par exemple, a t'il des lunettes. Ou alor
     def onInput_onSet(self):
         try:
             if self.dialog:
-                for topic in self.dialog.getActivatedTopics():
-                    if topic != "Repeter":
-                        self.dialog.deactivateTopic(topic)
                 self.dialog.setFocus("Repeter")
             if self.dialog is None:
                 raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
@@ -1763,9 +1783,6 @@ La première sur une caractéristique, par exemple, a t'il des lunettes. Ou alor
     def onInput_onSet(self):
         try:
             if self.dialog:
-                for topic in self.dialog.getActivatedTopics():
-                    if topic != "NAO2ReponseRegles":
-                        self.dialog.deactivateTopic(topic)
                 self.dialog.setFocus("NAO2ReponseRegles")
             if self.dialog is None:
                 raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
@@ -2002,7 +2019,7 @@ class MyClass(GeneratedClass):
                                 </BehaviorLayer>
                             </Timeline>
                         </Box>
-                        <Box name="Debut" id="8" localization="8" tooltip="Boite permettant de sélectionner un personnage" x="711" y="37">
+                        <Box name="Debut" id="8" localization="8" tooltip="Boite permettant de sélectionner un personnage" x="650" y="148">
                             <bitmap>media/images/box/box-diagram.png</bitmap>
                             <script language="4">
                                 <content>
@@ -2284,9 +2301,6 @@ class MyClass(GeneratedClass):
     def onInput_onSet(self):
         try:
             if self.dialog:
-                for topic in self.dialog.getActivatedTopics():
-                    if topic != "Debut":
-                        self.dialog.deactivateTopic(topic)
                 self.dialog.setFocus("Debut")
             if self.dialog is None:
                 raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
@@ -2366,9 +2380,6 @@ class MyClass(GeneratedClass):
     def onInput_onSet(self):
         try:
             if self.dialog:
-                for topic in self.dialog.getActivatedTopics():
-                    if topic != "ReponsePersonnage":
-                        self.dialog.deactivateTopic(topic)
                 self.dialog.setFocus("ReponsePersonnage")
             if self.dialog is None:
                 raise RuntimeError("Cannot set dialog topic: ALDialog is not available.")
@@ -2413,6 +2424,8 @@ class MyClass(GeneratedClass):
                         <Link inputowner="8" indexofinput="4" outputowner="7" indexofoutput="6" />
                         <Link inputowner="3" indexofinput="3" outputowner="8" indexofoutput="6" />
                         <Link inputowner="6" indexofinput="4" outputowner="7" indexofoutput="7" />
+                        <Link inputowner="2" indexofinput="2" outputowner="3" indexofoutput="5" />
+                        <Link inputowner="4" indexofinput="2" outputowner="3" indexofoutput="5" />
                     </Diagram>
                 </BehaviorKeyframe>
             </BehaviorLayer>
