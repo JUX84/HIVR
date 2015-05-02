@@ -15,7 +15,7 @@
             <BehaviorLayer name="behavior_layer1">
                 <BehaviorKeyframe name="keyframe1" index="1">
                     <Diagram>
-                        <Box name="Set Language" id="2" localization="8" tooltip="Select the language you would like the robot to speak and understand. Any following call to&#x0A;ALSpeechRecognition (Speech Reco. box for instance) or ALTextToSpeech (Say box&#x0A;for instance) will use this language." x="124" y="26">
+                        <Box name="Set Language" id="2" localization="8" tooltip="Select the language you would like the robot to speak and understand. Any following call to&#x0A;ALSpeechRecognition (Speech Reco. box for instance) or ALTextToSpeech (Say box&#x0A;for instance) will use this language." x="213" y="18">
                             <bitmap>media/images/box/interaction/say.png</bitmap>
                             <script language="4">
                                 <content>
@@ -88,7 +88,7 @@
                             </Parameter>
                             <Resource name="Speech" type="Lock" timeout="0" />
                         </Box>
-                        <Box name="Set Dialog Confidence Threshold" id="1" localization="8" tooltip="This box allows us to set the confidence threshold for ALDialog" x="270" y="19">
+                        <Box name="Set Dialog Confidence Threshold" id="1" localization="8" tooltip="This box allows us to set the confidence threshold for ALDialog" x="443" y="21">
                             <bitmap>media/images/box/box-python-script.png</bitmap>
                             <script language="4">
                                 <content>
@@ -123,7 +123,7 @@
                             <Output name="onReady" type="1" type_size="1" nature="2" inner="0" tooltip="Signal sent when the data has been set." id="4" />
                             <Parameter name="Level" inherits_from_parent="0" content_type="2" value="0.3" default_value="0.5" min="0" max="1" tooltip="" id="5" />
                         </Box>
-                        <Box name="Question-Reponse" id="3" localization="8" tooltip="Cette boite permet de gérer les question et réponse du NAO." x="814" y="189">
+                        <Box name="Question-Reponse" id="3" localization="8" tooltip="Cette boite permet de gérer les question et réponse du NAO." x="991" y="200">
                             <bitmap>media/images/box/box-diagram.png</bitmap>
                             <script language="4">
                                 <content>
@@ -353,7 +353,7 @@
                                 </BehaviorLayer>
                             </Timeline>
                         </Box>
-                        <Box name="Guess Who Initialization" id="4" localization="8" tooltip="This box initializes de GuessWho instance" x="83" y="167">
+                        <Box name="Guess Who Initialization" id="4" localization="8" tooltip="This box initializes de GuessWho instance" x="255" y="200">
                             <bitmap>media/images/box/box-python-script.png</bitmap>
                             <script language="4">
                                 <content>
@@ -609,7 +609,7 @@ class MyClass(GeneratedClass):
                             <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
                             <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="2" />
                         </Box>
-                        <Box name="Demarrage" id="5" localization="8" tooltip="Boite permettant de démarrarer le programme" x="488" y="1">
+                        <Box name="Demarrage" id="5" localization="8" tooltip="Boite permettant de démarrarer le programme" x="772" y="10">
                             <bitmap>media/images/box/box-diagram.png</bitmap>
                             <script language="4">
                                 <content>
@@ -889,7 +889,7 @@ class MyClass(GeneratedClass):
                                 </BehaviorLayer>
                             </Timeline>
                         </Box>
-                        <Box name="Initialisation" id="6" localization="8" tooltip="Boite permettant de d&apos;initialiser le jeu ou non. Si l&apos;adversaire ne veut pas jouer on peut quitter le programme ici ou le recommencer du début." x="278" y="294">
+                        <Box name="Initialisation" id="6" localization="8" tooltip="Boite permettant de d&apos;initialiser le jeu ou non. Si l&apos;adversaire ne veut pas jouer on peut quitter le programme ici ou le recommencer du début." x="561" y="397">
                             <bitmap>media/images/box/box-diagram.png</bitmap>
                             <script language="4">
                                 <content>
@@ -1426,7 +1426,7 @@ class MyClass(GeneratedClass):
                                 </BehaviorLayer>
                             </Timeline>
                         </Box>
-                        <Box name="Preparation" id="7" localization="8" tooltip="Cette boite permet de préparer l&apos;environnement du jeu. D&apos;expliquer les règle à l&apos;adversaire" x="480" y="183">
+                        <Box name="Preparation" id="7" localization="8" tooltip="Cette boite permet de préparer l&apos;environnement du jeu. D&apos;expliquer les règle à l&apos;adversaire" x="547" y="171">
                             <bitmap>media/images/box/box-diagram.png</bitmap>
                             <script language="4">
                                 <content>
@@ -2019,7 +2019,7 @@ class MyClass(GeneratedClass):
                                 </BehaviorLayer>
                             </Timeline>
                         </Box>
-                        <Box name="Debut" id="8" localization="8" tooltip="Boite permettant de sélectionner un personnage" x="650" y="148">
+                        <Box name="Debut" id="8" localization="8" tooltip="Boite permettant de sélectionner un personnage" x="767" y="185">
                             <bitmap>media/images/box/box-diagram.png</bitmap>
                             <script language="4">
                                 <content>
