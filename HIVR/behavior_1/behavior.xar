@@ -174,7 +174,7 @@
             else:
                 self.logger.info(guesswho.getStatus())
                 if guesswho.getStatus() == "won":
-                    self.tts.say("J'ai gagne")
+                    self.tts.say("J'ai gagné")
                 else:
                     self.tts.say("J'ai perdu")
                 time.sleep(3)
@@ -237,7 +237,7 @@
             if guesswho.getStatus() != "play":
                 time.sleep(3)
                 if guesswho.getStatus() == "won":
-                    self.tts.say("J'ai gagne")
+                    self.tts.say("J'ai gagné")
                 else:
                     self.tss.say("J'ai perdu")
                 time.sleep(3)
@@ -2424,8 +2424,7 @@ class MyClass(GeneratedClass):
                         <Link inputowner="8" indexofinput="4" outputowner="7" indexofoutput="6" />
                         <Link inputowner="3" indexofinput="3" outputowner="8" indexofoutput="6" />
                         <Link inputowner="6" indexofinput="4" outputowner="7" indexofoutput="7" />
-                        <Link inputowner="2" indexofinput="2" outputowner="3" indexofoutput="5" />
-                        <Link inputowner="4" indexofinput="2" outputowner="3" indexofoutput="5" />
+                        <Link inputowner="0" indexofinput="4" outputowner="3" indexofoutput="5" />
                     </Diagram>
                 </BehaviorKeyframe>
             </BehaviorLayer>
