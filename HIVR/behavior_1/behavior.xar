@@ -26,6 +26,7 @@
     def onLoad(self):
         try:
             self.tts = ALProxy("ALTextToSpeech")
+
         except:
             self.logger.warn("ALTextToSpeech is not available, language setting cannot be applied to speech")
             self.tts = None
@@ -240,9 +241,9 @@
                     self.tts.say("J'ai gagné")
                 else:
                     self.tss.say("J'ai perdu")
-                time.sleep(3)
                 guesswho.setStatus("idle")
                 self.over()
+            time.sleep(3)
         self.onStopped() #activate the output of the box
 
     def onInput_onStop(self):
@@ -267,6 +268,11 @@
     def onLoad(self):
         try:
             self.dialog = ALProxy("ALDialog")
+            self.tts = ALProxy("ALTextToSpeech")
+            self.tts.setParameter("pitchShift",1.0)
+            self.tts.setParameter("doubleVoice",1.0)
+            self.tts.setParameter("doubleVoiceLevel",1.0)
+            self.tts.setParameter("doubleVoiceTimeShift",0.1)
         except:
             self.logger.warn("ALDialog is not available, dialog topic cannot be set")
             self.dialog = None
@@ -411,7 +417,6 @@ class GuessWho:
     availableTraits = []
     okTraits = []
     koTraits = []
-    ethnies = ["caucasien", "black", "asiat"]
     colors = ["vert", "bleu", "jaune", "rouge", "blanc"]
     sex = ["homme", "femme"]
     hair = ["blond", "brun", "roux"]
@@ -428,8 +433,6 @@ class GuessWho:
         self.status = "idle"
 
     def generateQuestion(self, trait):
-        if self.ethnies.count(trait) > 0:
-            return "est-il " + trait
         if self.colors.count(trait) > 0:
             return "est-il habille de " + trait
         if self.hair.count(trait) > 0:
@@ -454,29 +457,18 @@ class GuessWho:
 
     def creationPersonnages(self):
         self.status = "play"
-        self.mesCharacters.append(Character("tony", ["homme", "caucasien", "blond", "vert", "basket"]))
-        self.mesCharacters.append(Character("max", ["homme", "caucasien",  "casque", "bleu", "hockey"]))
-        self.mesCharacters.append(Character("hugo", ["homme", "caucasien", "casque", "jaune", "ski"]))
-        self.mesCharacters.append(Character("manon", ["femme", "caucasien", "brun", "bleu", "foot"]))
-        self.mesCharacters.append(Character("laura", ["femme", "caucasien", "blond", "vert", "basket"]))
-        self.mesCharacters.append(Character("michelle", ["femme", "caucasien", "brun", "chapeau", "rouge", "equitation"]))
-        self.mesCharacters.append(Character("nicolas", ["homme", "caucasien", "brun", "blanc", "tennis"]))
-        self.mesCharacters.append(Character("kévin", ["homme", "black", "brun", "bandeau", "jaune", "basket"]))
-        self.mesCharacters.append(Character("pauline", ["femme", "caucasien", "brun", "bonnet", "bleu", "natation"]))
-        self.mesCharacters.append(Character("romain", ["homme", "caucasien", "roux", "rouge", "foot"]))
-        self.mesCharacters.append(Character("sarah", ["femme", "caucasien", "brun", "bandeau", "jaune", "foot"]))
-        self.mesCharacters.append(Character("léo", ["homme", "black", "brun", "chapeau", "bleu", "golf"]))
-        self.mesCharacters.append(Character("thomas", ["homme", "black", "brun", "chaussure", "rouge", "hockey"]))
-        self.mesCharacters.append(Character("chloé", ["femme", "caucasien", "brun", "chapeau", "blanc", "tennis"]))
-        self.mesCharacters.append(Character("julie", ["femme", "caucasien", "blonde", "chapeau","chaussure", "vert", "golf"]))
-        self.mesCharacters.append(Character("léa", ["femme", "caucasien", "brun", "bandeau", "jaune", "volley"]))
-        self.mesCharacters.append(Character("théo", ["homme", "caucasien", "roux", "bonnet", "bleu", "ski"]))
-        self.mesCharacters.append(Character("alex", ["homme", "caucasien", "blond", "bandeau", "rouge","balle", "tennis"]))
-        self.mesCharacters.append(Character("mathilde", ["femme", "black", "brun", "chaussure", "rouge", "foot"]))
-        self.mesCharacters.append(Character("fabio", ["homme", "caucasien", "bleu", "chaussure", "blanc", "foot"]))
-        self.mesCharacters.append(Character("michel", ["homme", "caucasien", "roux", "rouge", "basket"]))
-        self.mesCharacters.append(Character("katie", ["femme", "black", "brun", "bonnet", "jaune", "ski"]))
-        self.mesCharacters.append(Character("marion", ["femme", "caucasien", "roux", "bandeau", "blanc", "basket"]))
+        self.mesCharacters.append(Character("tony", ["homme", "blond", "vert", "basket"]))
+        self.mesCharacters.append(Character("max", ["homme",  "casque", "bleu", "hockey"]))
+        self.mesCharacters.append(Character("hugo", ["homme", "casque", "jaune", "ski"]))
+        self.mesCharacters.append(Character("manon", ["femme", "brun", "bleu", "foot"]))
+        self.mesCharacters.append(Character("laura", ["femme", "blond", "vert", "basket"]))
+        self.mesCharacters.append(Character("michelle", ["femme", "brun", "chapeau", "rouge", "equitation"]))
+        self.mesCharacters.append(Character("nicolas", ["homme", "brun", "blanc", "tennis"]))
+        self.mesCharacters.append(Character("kévin", ["homme", "brun", "bandeau", "jaune", "basket"]))
+        self.mesCharacters.append(Character("pauline", ["femme", "brun", "bonnet", "bleu", "natation"]))
+        self.mesCharacters.append(Character("romain", ["homme", "roux", "rouge", "foot"]))
+        self.mesCharacters.append(Character("sarah", ["femme", "brun", "bandeau", "jaune", "foot"]))
+        self.mesCharacters.append(Character("léo", ["homme", "brun", "chapeau", "bleu", "golf"]))
         self.adversaireCharacters = copy(self.mesCharacters)
     def initA(self):
         self.status = "play"
@@ -486,7 +478,7 @@ class GuessWho:
     def initB(self):
         self.status = "play"
         self.creationPersonnages()
-        self.character = self.mesCharacters[22]
+        self.character = self.mesCharacters[11]
 
     def init(self):
         self.status = "play"
@@ -2410,10 +2402,39 @@ class MyClass(GeneratedClass):
                                 </BehaviorLayer>
                             </Timeline>
                         </Box>
+                        <Box name="SelectCharacter" id="9" localization="8" tooltip="" x="942" y="432">
+                            <bitmap>media/images/box/box-python-script.png</bitmap>
+                            <script language="4">
+                                <content>
+                                    <![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self, p):
+        global guesswho
+        guesswho.initA()
+        self.onStopped() #activate the output of the box
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]>
+</content>
+                            </script>
+                            <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                            <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+                            <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+                            <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+                        </Box>
                         <Link inputowner="2" indexofinput="2" outputowner="0" indexofoutput="2" />
                         <Link inputowner="1" indexofinput="2" outputowner="2" indexofoutput="3" />
                         <Link inputowner="0" indexofinput="4" outputowner="3" indexofoutput="4" />
-                        <Link inputowner="5" indexofinput="2" outputowner="1" indexofoutput="4" />
                         <Link inputowner="6" indexofinput="2" outputowner="5" indexofoutput="4" />
                         <Link inputowner="5" indexofinput="2" outputowner="6" indexofoutput="6" />
                         <Link inputowner="7" indexofinput="2" outputowner="6" indexofoutput="5" />
@@ -2425,6 +2446,8 @@ class MyClass(GeneratedClass):
                         <Link inputowner="3" indexofinput="3" outputowner="8" indexofoutput="6" />
                         <Link inputowner="6" indexofinput="4" outputowner="7" indexofoutput="7" />
                         <Link inputowner="0" indexofinput="4" outputowner="3" indexofoutput="5" />
+                        <Link inputowner="3" indexofinput="2" outputowner="9" indexofoutput="4" />
+                        <Link inputowner="5" indexofinput="2" outputowner="1" indexofoutput="4" />
                     </Diagram>
                 </BehaviorKeyframe>
             </BehaviorLayer>
