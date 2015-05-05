@@ -381,42 +381,34 @@ class Info:
         return self.value
 
 class Character:
-    name = ""
-    traits = []
 
-    def __init__(self, name, traits):
-        self.name = name
-        self.traits = traits
+    def __init__(self, name, sex, color, hair, sport, goodie=""):
+        self.infos = []
+        self.infos.append(Info("name", name))
+        self.infos.append(Info("sex", sex))
+        self.infos.append(Info("color", color))
+        self.infos.append(Info("hair", hair))
+        self.infos.append(Info("sport", sport))
+        self.infos.append(Info("goodie", goodie))
 
     def getName(self):
-        return self.name
-
-    def getTraits(self):
-        return self.traits
-
-    def check(self, infos):
-        infosArr = []
-        i = 0
-        while i < len(infos)-1:
-            infosArr.append(Info(infos[i], infos[i+1]))
-            i += 2
-        for info in infosArr:
+        for info in self.infos:
             if info.getKey() == "name":
-                return self.name == info.getValue().strip()
-            if info.getKey() == "trait":
-                for trait in self.traits:
-                    if trait == info.getValue().strip():
-                        return True
+                return info.getValue()
+        return "bug"
+
+    def getInfos(self):
+        return self.infos
+
+    def check(self, cmp):
+        for info in self.infos:
+            if info.getKey() == cmp.getKey():
+                if info.getValue() == cmp.getValue().strip():
+                    return True
+                return False
         return False
 
 class GuessWho:
-    character = Character("", [])
-    mesCharacters = []
-    adversaireCharacters = []
-    current = []
-    availableTraits = []
-    okTraits = []
-    koTraits = []
     colors = ["vert", "bleu", "jaune", "rouge", "blanc"]
     sex = ["homme", "femme"]
     hair = ["blond", "brun", "roux"]
@@ -425,8 +417,8 @@ class GuessWho:
     sportsF = ["natation"]
     goodiesM = ["bandeau", "casque", "chapeau", "bonnet"]
     goodiesF = ["balle", "chaussure"]
-    status = "idle"
-    dialog = ""
+    koTraits = []
+    okTraits = []
 
     def __init__(self, dialog):
         self.dialog = dialog
@@ -449,7 +441,10 @@ class GuessWho:
             return "a-t-il une " + trait
         str = "est-ce "
         if self.sex.count(trait) > 0:
-            str += "un "
+            str += "un"
+            if trait == "femme":
+                str += "e"
+            str += " "
         return str + trait
 
     def chars(self):
@@ -457,58 +452,73 @@ class GuessWho:
 
     def creationPersonnages(self):
         self.status = "play"
-        self.mesCharacters.append(Character("tony", ["homme", "blond", "vert", "basket"]))
-        self.mesCharacters.append(Character("max", ["homme",  "casque", "bleu", "hockey"]))
-        self.mesCharacters.append(Character("hugo", ["homme", "casque", "jaune", "ski"]))
-        self.mesCharacters.append(Character("manon", ["femme", "brun", "bleu", "foot"]))
-        self.mesCharacters.append(Character("laura", ["femme", "blond", "vert", "basket"]))
-        self.mesCharacters.append(Character("michelle", ["femme", "brun", "chapeau", "rouge", "equitation"]))
-        self.mesCharacters.append(Character("nicolas", ["homme", "brun", "blanc", "tennis"]))
-        self.mesCharacters.append(Character("kévin", ["homme", "brun", "bandeau", "jaune", "basket"]))
-        self.mesCharacters.append(Character("pauline", ["femme", "brun", "bonnet", "bleu", "natation"]))
-        self.mesCharacters.append(Character("romain", ["homme", "roux", "rouge", "foot"]))
-        self.mesCharacters.append(Character("sarah", ["femme", "brun", "bandeau", "jaune", "foot"]))
-        self.mesCharacters.append(Character("léo", ["homme", "brun", "chapeau", "bleu", "golf"]))
+        self.mesCharacters = []
+        self.mesCharacters.append(Character("tony", "homme", "vert", "blond", "basket"))
+        self.mesCharacters.append(Character("max", "homme", "bleu", "und",  "hockey", "casque"))
+        self.mesCharacters.append(Character("hugo", "homme", "jaune", "und" "ski", "casque"))
+        self.mesCharacters.append(Character("manon", "femme", "bleu", "brun", "foot"))
+        self.mesCharacters.append(Character("laura", "femme", "vert", "blond", "basket"))
+        self.mesCharacters.append(Character("michelle", "femme", "rouge", "brun", "equitation", "chapeau"))
+        self.mesCharacters.append(Character("nicolas", "homme", "blanc", "brun", "tennis"))
+        self.mesCharacters.append(Character("kévin", "homme", "jaune", "brun", "basket", "bandeau"))
+        self.mesCharacters.append(Character("pauline", "femme", "bleu", "brun", "natation", "bonnet"))
+        self.mesCharacters.append(Character("romain", "homme", "rouge", "roux", "foot"))
+        self.mesCharacters.append(Character("sarah", "femme", "jaune", "brun", "foot", "bandeau"))
+        self.mesCharacters.append(Character("léo", "homme", "bleu", "brun", "golf", "chapeau"))
         self.adversaireCharacters = copy(self.mesCharacters)
-    def initA(self):
-        self.status = "play"
-        self.creationPersonnages()
-        self.character = self.mesCharacters[0]
-
-    def initB(self):
-        self.status = "play"
-        self.creationPersonnages()
-        self.character = self.mesCharacters[11]
 
     def init(self):
         self.status = "play"
         self.creationPersonnages()
         self.character = self.mesCharacters[random.randint(0,len(self.mesCharacters)-1)]
+        tmp = []
+        self.totalCharacters = float(len(self.mesCharacters))
+        for character in self.mesCharacters:
+            for info in character.getInfos():
+                if info.getKey() != "name" and tmp.count(info.getValue()) == 0:
+                    tmp.append(copy(info.getValue()))
+        self.totalTraits = float(len(tmp))
 
     def check(self, infos):
-        bool = self.character.check(infos)
-        if infos[0] == "trait":
-            tmp = copy(self.adversaireCharacters)
-            self.adversaireCharacters = []
-            for character in tmp:
-                if character.check(infos) == True:
-                    self.adversaireCharacters.append(copy(character))
+        bool = self.character.check(Info(infos[0], infos[1]))
         if infos[0] == "name":
             if bool == True:
                 self.status = "lost"
             else:
                 self.status = "won"
+        else:
+            tmp = copy(self.adversaireCharacters)
+            self.adversaireCharacters = []
+            for character in tmp:
+                if bool == character.check(Info(infos[0], infos[1])):
+                    self.adversaireCharacters.append(copy(character))
         return bool
-
-    def getAdvCharCount(self):
-        return len(self.adversaireCharacters)
 
     def refTraits(self):
         self.availableTraits = []
         for character in self.mesCharacters:
-            for trait in character.getTraits():
-                if self.koTraits.count(trait) == 0 and self.okTraits.count(trait) == 0:
-                    self.availableTraits.append(trait)
+            for info in character.getInfos():
+                if info.getKey() != "name" and info.getValue() != "" and info.getValue() != "und":
+                    b = True
+                    for tmp in self.okTraits:
+                        if info.getKey() == tmp.getKey():
+                            b = False
+                    for tmp in self.koTraits:
+                        if info.getValue() == tmp.getValue():
+                            b = False
+                    c = False
+                    if b == True:
+                        for character in self.mesCharacters:
+                            for tmp in character.getInfos():
+                                if info.getKey() == tmp.getKey() and info.getValue() != tmp.getValue():
+                                    c = True
+                    d = True
+                    if b == True and c == True:
+                        for tmp in self.availableTraits:
+                            if info.getKey() == tmp.getKey() and info.getValue() == tmp.getValue():
+                                d = False
+                    if b == True and c == True and d == True:
+                        self.availableTraits.append(info)
 
     def ask(self):
         if len(self.mesCharacters) == 0:
@@ -521,43 +531,27 @@ class GuessWho:
             self.current = ["name", copy(self.mesCharacters[random.randint(0,len(self.mesCharacters)-1)].getName())]
             return "est-ce "+self.current[1]
         self.refTraits()
-        trait = self.availableTraits.pop(0)
-        self.current = ["trait", copy(trait)]
-        return self.generateQuestion(self.current[1])
-
-    def getDanger(self):
-        return str(self.lose()) + " " + str(self.win())
+        self.current = self.availableTraits.pop(0)
+        return self.generateQuestion(self.current.getValue())
 
     def process(self, bool):
-        if self.current[0] == "name":
+        if self.current.getKey() == "name":
             if bool == True:
                 self.status = "won"
             else:
                 self.status = "lost"
         else:
             if bool == False:
-                self.koTraits.append(copy(self.current[1]))
+                self.koTraits.append(copy(self.current))
             if bool == True:
-                self.okTraits.append(copy(self.current[1]))
-            #self.dialog.deactivateTag("sex", "Question")
+                self.okTraits.append(copy(self.current))
             tmp = copy(self.mesCharacters)
             self.mesCharacters = []
             for character in tmp:
                 if character.check(self.current) == bool:
                     self.mesCharacters.append(copy(character))
 
-    def getTraits(self):
-        str = ""
-        for trait in self.okTraits:
-            str += trait + " "
-        str += "-"
-        for trait in self.koTraits:
-            str += " " + trait
-        return str
-
     def risque(self, tableauPersonnage):
-        nombrePersonnageTotal = 24.
-        nombreCaracteristiquesTotal = 28.
         nombrePersonnage = 0.
         nombreCaracteristiques = 0.
         tmp = []
@@ -565,13 +559,12 @@ class GuessWho:
 
         nombrePersonnage = len(tableauPersonnage)
         for character in tableauPersonnage:
-            for trait in character.getTraits():
-                if tmp.count(trait) == 0:
-                    tmp.append(copy(trait))
+            for info in character.getInfos():
+                if info.getKey() != "name" and tmp.count(info.getValue()) == 0:
+                    tmp.append(copy(info.getValue()))
 
         nombreCaracteristiques = len(tmp)
-        #return nombrePersonnage
-        return (100. -(((nombrePersonnage+nombreCaracteristiques)/(nombrePersonnageTotal+nombreCaracteristiquesTotal))*100.))
+        return (100. -(((nombrePersonnage+nombreCaracteristiques)/(self.totalCharacters+self.totalTraits))*100.))
 
     def lose(self):
         return self.risque(self.adversaireCharacters)
@@ -2262,7 +2255,7 @@ class MyClass(GeneratedClass):
 
     def onInput_onStart(self, p):
         global guesswho
-        guesswho.initA()
+        guesswho.init()
         self.onStopped() #activate the output of the box
 
     def onInput_onStop(self):
@@ -2325,7 +2318,7 @@ class MyClass(GeneratedClass):
 
     def onInput_onStart(self):
         global guesswho
-        guesswho.initB()
+        guesswho.init()
         self.onStopped("") #activate the output of the box
 
     def onInput_onStop(self):
@@ -2419,7 +2412,7 @@ class MyClass(GeneratedClass):
 
     def onInput_onStart(self, p):
         global guesswho
-        guesswho.initA()
+        guesswho.init()
         self.onStopped() #activate the output of the box
 
     def onInput_onStop(self):

@@ -1,19 +1,21 @@
 topic: ~Question()
 language: frf
 
-u:^private("est-ce un homme") %sex $onStopped="trait;homme"
-u:^private("est-ce une femme") %sex $onStopped="trait;femme"
+u:^private("est-ce un homme") %sex $onStopped="sex;homme"
+u:^private("est-ce une femme") %sex $onStopped="sex;femme"
 
-u:^private("a-[il elle] les cheveux _[brun blond roux]") %hair $onStopped="trait;$1"
+u:^private("a-[il elle] les cheveux _[brun blond roux]") %hair $onStopped="hair;$1"
 
-u:^private("est-[il elle] habille en _[vert bleu jaune rouge blanc]") %color $onStopped="trait;$1"
+u:^private("est-[il elle] habille [en de] _[vert bleu jaune rouge blanc]") %color $onStopped="color;$1"
 
-u:^private("a-t-[il elle] un _[chapeau bandeau bonnet casque]") %goodie $onStopped="trait;$1"
-u:^private("a-t-[il elle] une _[chaussure balle]") %goodie $onStopped="trait;$1"
+u:^private("a-t-[il elle] un _[chapeau bandeau bonnet casque]") %goodie $onStopped="goodie;$1"
+u:^private("a-t-[il elle] une _[chaussure balle]") %goodie $onStopped="goodie;$1"
 
-u:^private("fait-[il elle] du _[basket hockey ski tennis golf]") %sport $onStopped="trait;$1"
-u:^private("fait-[il elle] du [foot football]") %sport $onStopped="trait;foot"
-u:^private("fait-[il elle] de l'equitation") %sport $onStopped="trait;equitation"
-u:^private("fait-[il elle] de la natation") %sport $onStopped="trait;natation"
+u:^private("fait-[il elle] du _[basket hockey ski tennis golf]") %sport $onStopped="sport;$1"
+u:^private("fait-[il elle] du [foot football]") %sport $onStopped="sport;foot"
+u:^private("fait-[il elle] de l'equitation") %sport $onStopped="sport;equitation"
+u:^private("fait-[il elle] de la natation") %sport $onStopped="sport;natation"
 
-u:^private("est-ce _[tony max hugo manon laura michelle nicolas kévin pauline romain sarah léo]") $onStopped="name;$1"
+u:^private("est-ce _[tony max hugo manon laura michelle nicolas kévin pauline romain sarah léo]") tu as demande si c'etait $1, es-tu sur de toi ? $name=$1 
+    u1:(oui) $onStopped="name;$name"
+    u1:(non) OK, pose moi une autre question
