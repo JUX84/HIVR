@@ -171,9 +171,9 @@
                     self.tts.say("Non")
             time.sleep(3)
             if guesswho.getStatus() == "play":
-                if random.randint(0,2) == 0:
-                    self.tts.say(guesswho.sayJoke())
-                    time.sleep(5)
+                #if random.randint(0,2) == 0:
+                self.tts.say(guesswho.sayJoke("bla"))
+                time.sleep(5)
                 self.tts.say(guesswho.ask())
             else:
                 if guesswho.getStatus() == "won":
@@ -406,6 +406,20 @@ class Character:
                 return False
         return False
 
+class JokeSet:
+    category = ""
+    jokes = []
+
+    def __init__(self, category, jokes):
+        self.category = category
+        self.jokes = jokes
+
+    def getCategory(self):
+        return self.category
+
+    def getJoke(self):
+        return self.jokes[random.randint(0,len(self.jokes)-1)]
+
 class GuessWho:
     colors = ["vert", "bleu", "jaune", "rouge", "blanc"]
     sex = ["homme", "femme"]
@@ -417,19 +431,25 @@ class GuessWho:
     goodiesF = ["balle", "chaussure"]
     koTraits = []
     okTraits = []
-    jokes = ["tu sais que chuck norris a compter jusqu'a l'infini ? \\pau=800\\ \\rspd=80\\deux fois.",
+    miscJokes = ["tu sais que chuck norris a compter jusqu'a l'infini ? \\pau=800\\ \\rspd=80\\deux fois.",
             "\\rspd=90\\sais-tu que Google est le seul endroit où tu peux taper Chuck Norris",
             "\\rspd=90\\une legende dit que Chuck Norris donne fréquemment du sang à la Croix-Rouge. Mais jamais le sien.",
             "\\rspd=90\\il parait que les teleteubize sont apparu le lendemain de la rencontre entre les tortues ninja et chuck norris. \\pau=500\\coincidence ? \\pau=500\\ \\rspd=80\\je ne pense pas.",
             "\\rspd=90\\Un jour quelqu'un a refuser de filer une clope à Chuck Norris. Depuis, on prévient sur tous les paquets que Fumer tue",
             "\\rspd=80\\Chuck Norris à réussi à trouver la page 404"]
+    jokes = []
 
     def __init__(self, dialog):
         self.dialog = dialog
         self.status = "idle"
+        self.jokes.append(JokeSet("misc", self.miscJokes))
 
-    def sayJoke(self):
-        return self.jokes[random.randint(0,len(self.jokes)-1)]
+    def sayJoke(self, category):
+        for jokeset in self.jokes:
+            if jokeset.getCategory() == category:
+                return jokeset.getJoke()
+        return self.jokes[0].getJoke()
+
 
     def generateQuestion(self, trait):
         if self.colors.count(trait) > 0:
