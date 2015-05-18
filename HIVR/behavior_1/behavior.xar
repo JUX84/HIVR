@@ -171,9 +171,9 @@
                     self.tts.say("Non")
             time.sleep(3)
             if guesswho.getStatus() == "play":
-                #if random.randint(0,2) == 0:
-                self.tts.say(guesswho.sayJoke("bla"))
-                time.sleep(5)
+                if random.randint(0,2) == 0:
+                    self.tts.say(guesswho.sayJoke("bla"))
+                    time.sleep(5)
                 self.tts.say(guesswho.ask())
             else:
                 if guesswho.getStatus() == "won":
@@ -237,15 +237,15 @@
             else:
                 guesswho.process(False)
             self.tts.say("OK")
+            time.sleep(3)
             if guesswho.getStatus() != "play":
-                time.sleep(3)
+                str = "J'ai perdu"
                 if guesswho.getStatus() == "won":
-                    self.tts.say("J'ai gagné")
-                else:
-                    self.tss.say("J'ai perdu")
+                    str = "J'ai gagné"
+                self.tts.say(str)
+                time.sleep(3)
                 guesswho.setStatus("idle")
                 self.over()
-            time.sleep(3)
         self.onStopped() #activate the output of the box
 
     def onInput_onStop(self):
@@ -350,8 +350,6 @@
                                             <Link inputowner="6" indexofinput="2" outputowner="2" indexofoutput="4" />
                                             <Link inputowner="5" indexofinput="2" outputowner="1" indexofoutput="4" />
                                             <Link inputowner="2" indexofinput="2" outputowner="0" indexofoutput="3" />
-                                            <Link inputowner="0" indexofinput="5" outputowner="2" indexofoutput="5" />
-                                            <Link inputowner="0" indexofinput="5" outputowner="1" indexofoutput="5" />
                                         </Diagram>
                                     </BehaviorKeyframe>
                                 </BehaviorLayer>
@@ -431,12 +429,12 @@ class GuessWho:
     goodiesF = ["balle", "chaussure"]
     koTraits = []
     okTraits = []
-    miscJokes = ["tu sais que chuck norris a compter jusqu'a l'infini ? \\pau=800\\ \\rspd=80\\deux fois.",
-            "\\rspd=90\\sais-tu que Google est le seul endroit où tu peux taper Chuck Norris",
-            "\\rspd=90\\une legende dit que Chuck Norris donne fréquemment du sang à la Croix-Rouge. Mais jamais le sien.",
-            "\\rspd=90\\il parait que les teleteubize sont apparu le lendemain de la rencontre entre les tortues ninja et chuck norris. \\pau=500\\coincidence ? \\pau=500\\ \\rspd=80\\je ne pense pas.",
-            "\\rspd=90\\Un jour quelqu'un a refuser de filer une clope à Chuck Norris. Depuis, on prévient sur tous les paquets que Fumer tue",
-            "\\rspd=80\\Chuck Norris à réussi à trouver la page 404"]
+    miscJokes = ["\\rspd=95\\tu sais que chuck norris a compter jusqu'a l'infini ? \\pau=800\\deux fois.",
+            "\\rspd=95\\sais-tu que Google est le seul endroit où tu peux taper Chuck Norris",
+            "\\rspd=95\\une légende dit que Chuck Norris donne fréquemment du sang à la Croix-Rouge. Mais jamais le sien.",
+            "\\rspd=95\\il parait que les teleteubize sont apparu le lendemain de la rencontre entre les tortues ninja et chuck norris. \\pau=500\\coincidence ? \\pau=500\\je ne pense pas.",
+            "\\rspd=95\\Un jour quelqu'un a refuser de filer une clope à Chuck Norris. Depuis, on prévient sur tous les paquets que Fumer tue",
+            "\\rspd=95\\Chuck Norris à réussi à trouver la page 404"]
     jokes = []
 
     def __init__(self, dialog):
@@ -453,7 +451,7 @@ class GuessWho:
 
     def generateQuestion(self, trait):
         if self.colors.count(trait) > 0:
-            return "est-il habille de " + trait
+            return "est-il habillé de " + trait
         if self.hair.count(trait) > 0:
             return "a-t-il les cheveux " + trait
         if self.sportsM.count(trait) > 0:
@@ -553,10 +551,10 @@ class GuessWho:
             return "il y a un probleme"
         if len(self.mesCharacters) == 1:
             self.current = Info("name", copy(self.mesCharacters[0].getName()))
-            return "est-ce "+self.current[1]
+            return "est-ce "+self.current.getValue()
         if self.lose() > 80. and self.win() > 70.:
             self.current = Info("name", copy(self.mesCharacters[random.randint(0,len(self.mesCharacters)-1)].getName()))
-            return "est-ce "+self.current[1]
+            return "est-ce "+self.current.getValue()
         self.refTraits()
         self.current = self.availableTraits.pop(0)
         return self.generateQuestion(self.current.getValue())
@@ -2424,7 +2422,6 @@ class MyClass(GeneratedClass):
                         </Box>
                         <Link inputowner="2" indexofinput="2" outputowner="0" indexofoutput="2" />
                         <Link inputowner="1" indexofinput="2" outputowner="2" indexofoutput="3" />
-                        <Link inputowner="0" indexofinput="4" outputowner="3" indexofoutput="4" />
                         <Link inputowner="6" indexofinput="2" outputowner="5" indexofoutput="4" />
                         <Link inputowner="5" indexofinput="2" outputowner="6" indexofoutput="6" />
                         <Link inputowner="7" indexofinput="2" outputowner="6" indexofoutput="5" />
@@ -2435,7 +2432,6 @@ class MyClass(GeneratedClass):
                         <Link inputowner="8" indexofinput="4" outputowner="7" indexofoutput="6" />
                         <Link inputowner="3" indexofinput="3" outputowner="8" indexofoutput="6" />
                         <Link inputowner="6" indexofinput="4" outputowner="7" indexofoutput="7" />
-                        <Link inputowner="0" indexofinput="4" outputowner="3" indexofoutput="5" />
                         <Link inputowner="5" indexofinput="2" outputowner="1" indexofoutput="4" />
                     </Diagram>
                 </BehaviorKeyframe>
