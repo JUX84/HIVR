@@ -419,7 +419,7 @@ class JokeSet:
 
     def getJoke(self):
         if len(self.jokes) > 0:
-            return self.jokes.pop([random.randint(0,len(self.jokes)-1)])
+            return self.jokes.pop(random.randint(0,len(self.jokes)-1))
         return ""
 
 class GuessWho:
@@ -447,7 +447,7 @@ class GuessWho:
         self.jokeset.append(JokeSet("misc", self.miscJokes))
 
     def sayJoke(self, category):
-        for jokeset in self.jokes:
+        for jokeset in self.jokeset:
             if jokeset.getCategory() == category:
                 return jokeset.getJoke()
         return self.jokeset[0].getJoke()
