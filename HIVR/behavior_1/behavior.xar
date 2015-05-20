@@ -350,6 +350,8 @@
                                             <Link inputowner="6" indexofinput="2" outputowner="2" indexofoutput="4" />
                                             <Link inputowner="5" indexofinput="2" outputowner="1" indexofoutput="4" />
                                             <Link inputowner="2" indexofinput="2" outputowner="0" indexofoutput="3" />
+                                            <Link inputowner="0" indexofinput="4" outputowner="2" indexofoutput="5" />
+                                            <Link inputowner="0" indexofinput="4" outputowner="1" indexofoutput="5" />
                                         </Diagram>
                                     </BehaviorKeyframe>
                                 </BehaviorLayer>
@@ -378,7 +380,7 @@ class Info:
 
 class Character:
 
-    def __init__(self, name, sex, color, hair, sport, goodie=""):
+    def __init__(self, name, sex, color, hair, sport, goodie):
         self.infos = []
         self.infos.append(Info("name", name))
         self.infos.append(Info("sex", sex))
@@ -425,7 +427,7 @@ class GuessWho:
     sportsM = ["basket", "hockey", "ski", "foot", "golf", "tennis"]
     sportsN = ["equitation"]
     sportsF = ["natation"]
-    goodiesM = ["bandeau", "casque", "chapeau", "bonnet"]
+    goodiesM = ["bandeau", "casque", "chapeau", "bonnet", "ballon"]
     goodiesF = ["balle", "chaussure"]
     koTraits = []
     okTraits = []
@@ -478,18 +480,30 @@ class GuessWho:
     def creationPersonnages(self):
         self.status = "play"
         self.mesCharacters = []
-        self.mesCharacters.append(Character("tony", "homme", "vert", "blond", "basket"))
+        self.mesCharacters.append(Character("tony", "homme", "vert", "blond", "basket", "ballon"))
         self.mesCharacters.append(Character("max", "homme", "bleu", "und",  "hockey", "casque"))
-        self.mesCharacters.append(Character("hugo", "homme", "jaune", "und" "ski", "casque"))
-        self.mesCharacters.append(Character("manon", "femme", "bleu", "brun", "foot"))
-        self.mesCharacters.append(Character("laura", "femme", "vert", "blond", "basket"))
+        self.mesCharacters.append(Character("hugo", "homme", "jaune", "und",  "ski", "casque"))
+        self.mesCharacters.append(Character("manon", "femme", "bleu", "brun", "foot", "ballon"))
+        self.mesCharacters.append(Character("laura", "femme", "vert", "blond", "basket", "ballon"))
         self.mesCharacters.append(Character("michelle", "femme", "rouge", "brun", "equitation", "chapeau"))
-        self.mesCharacters.append(Character("nicolas", "homme", "blanc", "brun", "tennis"))
+        self.mesCharacters.append(Character("nicolas", "homme", "blanc", "brun", "tennis", "raquette"))
         self.mesCharacters.append(Character("kévin", "homme", "jaune", "brun", "basket", "bandeau"))
         self.mesCharacters.append(Character("pauline", "femme", "bleu", "brun", "natation", "bonnet"))
-        self.mesCharacters.append(Character("romain", "homme", "rouge", "roux", "foot"))
+        self.mesCharacters.append(Character("romain", "homme", "rouge", "roux", "foot", "ballon"))
         self.mesCharacters.append(Character("sarah", "femme", "jaune", "brun", "foot", "bandeau"))
         self.mesCharacters.append(Character("léo", "homme", "bleu", "brun", "golf", "chapeau"))
+        self.mesCharacters.append(Character("thomas", "homme", "rouge", "brun", "hockey", "chaussure"))
+        self.mesCharacters.append(Character("chloé", "femme", "blanc",  "brun", "tennis", "chapeau"))
+        self.mesCharacters.append(Character("julie", "femme", "vert", "blond", "golf", "chapeau"))
+        self.mesCharacters.append(Character("léa", "femme", "jaune", "brun", "volley", "bandeau"))
+        self.mesCharacters.append(Character("théo", "homme", "bleu", "roux", "ski", "bonnet"))
+        self.mesCharacters.append(Character("alex", "homme", "rouge", "blond", "tennis", "bandeau"))
+        self.mesCharacters.append(Character("anais", "femme", "bleu", "blanc", "golf", "club"))
+        self.mesCharacters.append(Character("mathilde", "femme", "rouge", "brun", "foot", "chaussure"))
+        self.mesCharacters.append(Character("fabio", "homme", "blanc", "bleu", "foot", "chaussure"))
+        self.mesCharacters.append(Character("michel", "homme", "rouge", "roux", "basket", "ballong"))
+        self.mesCharacters.append(Character("katie", "femme", "jaune", "brun", "ski", "bonnet"))
+        self.mesCharacters.append(Character("marion", "femme", "blanc", "roux", "basket", "bandeau"))
         self.adversaireCharacters = copy(self.mesCharacters)
 
     def init(self):
@@ -556,7 +570,7 @@ class GuessWho:
             self.current = Info("name", copy(self.mesCharacters[random.randint(0,len(self.mesCharacters)-1)].getName()))
             return "est-ce "+self.current.getValue()
         self.refTraits()
-        self.current = self.availableTraits.pop(0)
+        self.current = self.availableTraits.pop(random.randint(0,len(self.availableTraits)-1))
         return self.generateQuestion(self.current.getValue())
 
     def process(self, bool):
@@ -2433,6 +2447,7 @@ class MyClass(GeneratedClass):
                         <Link inputowner="3" indexofinput="3" outputowner="8" indexofoutput="6" />
                         <Link inputowner="6" indexofinput="4" outputowner="7" indexofoutput="7" />
                         <Link inputowner="5" indexofinput="2" outputowner="1" indexofoutput="4" />
+                        <Link inputowner="0" indexofinput="4" outputowner="3" indexofoutput="4" />
                     </Diagram>
                 </BehaviorKeyframe>
             </BehaviorLayer>
