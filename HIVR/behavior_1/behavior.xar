@@ -172,7 +172,7 @@
             time.sleep(3)
             if guesswho.getStatus() == "play":
                 if random.randint(0,2) == 0:
-                    self.tts.say(guesswho.sayJoke("bla"))
+                    self.tts.say(guesswho.sayJoke("misc"))
                     time.sleep(5)
                 self.tts.say(guesswho.ask())
             else:
@@ -418,7 +418,9 @@ class JokeSet:
         return self.category
 
     def getJoke(self):
-        return self.jokes[random.randint(0,len(self.jokes)-1)]
+        if len(self.jokes) > 0:
+            return self.jokes.pop([random.randint(0,len(self.jokes)-1)])
+        return ""
 
 class GuessWho:
     colors = ["vert", "bleu", "jaune", "rouge", "blanc"]
@@ -427,7 +429,7 @@ class GuessWho:
     sportsM = ["basket", "hockey", "ski", "foot", "golf", "tennis"]
     sportsN = ["equitation"]
     sportsF = ["natation"]
-    goodiesM = ["bandeau", "casque", "chapeau", "bonnet", "ballon"]
+    goodiesM = ["bandeau", "casque", "chapeau", "bonnet", "ballon", "club"]
     goodiesF = ["balle", "chaussure"]
     koTraits = []
     okTraits = []
@@ -437,18 +439,18 @@ class GuessWho:
             "\\rspd=95\\il parait que les teleteubize sont apparu le lendemain de la rencontre entre les tortues ninja et chuck norris. \\pau=500\\coincidence ? \\pau=500\\je ne pense pas.",
             "\\rspd=95\\Un jour quelqu'un a refuser de filer une clope à Chuck Norris. Depuis, on prévient sur tous les paquets que Fumer tue",
             "\\rspd=95\\Chuck Norris à réussi à trouver la page 404"]
-    jokes = []
+    jokeset = []
 
     def __init__(self, dialog):
         self.dialog = dialog
         self.status = "idle"
-        self.jokes.append(JokeSet("misc", self.miscJokes))
+        self.jokeset.append(JokeSet("misc", self.miscJokes))
 
     def sayJoke(self, category):
         for jokeset in self.jokes:
             if jokeset.getCategory() == category:
                 return jokeset.getJoke()
-        return self.jokes[0].getJoke()
+        return self.jokeset[0].getJoke()
 
 
     def generateQuestion(self, trait):
@@ -570,7 +572,7 @@ class GuessWho:
             self.current = Info("name", copy(self.mesCharacters[random.randint(0,len(self.mesCharacters)-1)].getName()))
             return "est-ce "+self.current.getValue()
         self.refTraits()
-        self.current = self.availableTraits.pop(random.randint(0,len(self.availableTraits)-1))
+        self.current = self.availableTraits.pop(0)
         return self.generateQuestion(self.current.getValue())
 
     def process(self, bool):

@@ -2,6 +2,6 @@ topic: ~Init_Non()
 language: frf
 
 u:^private(oui) $outNegative=1
-u:^private(non) connais tu les regles du jeu ? $outPositive=1
+u:^private(non) connais tu les règles du jeu ? $outPositive=1
 #u:^private(["Je n'ai pas compris"]) $outPC=1
 #u:^private (*) Je n'ai pas compris

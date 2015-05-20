@@ -8,7 +8,7 @@ u:^private("a-[il elle] les cheveux _[brun blond roux]") $onStopped="hair;$1"
 
 u:^private("est-[il elle] habille [en de] _[vert bleu jaune rouge blanc]") $onStopped="color;$1"
 
-u:^private("a-t-[il elle] un _[chapeau bandeau bonnet casque]") $onStopped="goodie;$1"
+u:^private("a-t-[il elle] un _[chapeau bandeau bonnet casque ballon club]") $onStopped="goodie;$1"
 u:^private("a-t-[il elle] une _[chaussure balle]") $onStopped="goodie;$1"
 
 u:^private("fait-[il elle] du _[basket hockey ski tennis golf]") $onStopped="sport;$1"
@@ -16,6 +16,6 @@ u:^private("fait-[il elle] du [foot football]") $onStopped="sport;foot"
 u:^private("fait-[il elle] de l'equitation") $onStopped="sport;equitation"
 u:^private("fait-[il elle] de la natation") $onStopped="sport;natation"
 
-u:^private("est-ce _[tony max hugo manon laura michelle nicolas kévin pauline romain sarah léo]") tu as demander si c'etait $1, es-tu sur de toi ? $name=$1 
+u:^private("est-ce _[tony max hugo manon laura michelle nicolas kévin pauline romain sarah léo thomas chloé julie léa théo alex anaïs mathilde fabio michael katie marion]") tu as demandé si c'était $1, es-tu sur de toi ? $name=$1 
     u1:(oui) $onStopped="name;$name"
     u1:(non) OK, pose moi une autre question
