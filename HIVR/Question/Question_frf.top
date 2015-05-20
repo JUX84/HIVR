@@ -16,6 +16,6 @@ u:^private("fait-[il elle] du [foot football]") $onStopped="sport;foot"
 u:^private("fait-[il elle] de l'equitation") $onStopped="sport;equitation"
 u:^private("fait-[il elle] de la natation") $onStopped="sport;natation"
 
-u:^private("est-ce _[tony max hugo manon laura michelle nicolas kévin pauline romain sarah léo thomas chloé julie léa théo alex anaïs mathilde fabio michael katie marion]") tu as demandé si c'était $1, es-tu sur de toi ? $name=$1 
+u:^private("est-ce _[tony max hugo manon laura michelle nicolas kévin pauline romain sarah léo]") tu as demandé si c'était $1, es-tu sur de toi ? $name=$1 
     u1:(oui) $onStopped="name;$name"
     u1:(non) OK, pose moi une autre question
