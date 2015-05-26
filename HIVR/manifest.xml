@@ -22,9 +22,6 @@ Humour et Interaction Vocale avec les Robots</description>
    <names>
     <name lang="fr_FR">Qui_Est_ce</name>
    </names>
-   <triggerSentences/>
-   <loadingResponses/>
-   <autonomous/>
    <permissions/>
   </behaviorContent>
  </contents>

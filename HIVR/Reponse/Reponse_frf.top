@@ -1,4 +1,4 @@
 topic: ~Reponse()
 language: frf
 
-u:^private(_[oui non]) $onStopped="answer;$1"
+u:^private(_[Oui Non]) $onStopped="answer;$1"

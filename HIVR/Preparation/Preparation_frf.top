@@ -1,7 +1,7 @@
 topic: ~Preparation()
 language: frf
 
-u:^private(oui) $outPositive=1
-u:^private(non) $outNegative=1
+u:^private(Oui) $outPositive=1
+u:^private(Non) $outNegative=1
 #u:^private(["Je n'ai pas compris"]) $outPC=1
 #u:^private (*) Je n'ai pas compris
